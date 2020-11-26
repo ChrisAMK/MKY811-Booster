@@ -1,0 +1,39 @@
+* {
+    font-family: 'roboto', cursive;
+}
+
+.bannerBox {
+    margin-bottom: 30px;
+    background-color: lightgray;
+    text-align: center;
+    border-radius: 5px;
+    font-family: 'Overpass', sans-serif;
+    padding-top: 10px; padding-bottom: 10px;
+    border-style: solid;
+}
+
+.submitPanel {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+input {
+    width: 100%;
+}
+
+.bookSearch {
+    margin-top: 10px;
+}
+
+.nav-item {
+    padding: 20px;
+}
+
+.navbar {
+    background-color: rgb(165, 0, 0);;
+    margin-bottom: 30px;
+}
+
+.noMatch {
+    text-align: center;
+}
