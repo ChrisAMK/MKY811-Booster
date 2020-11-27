@@ -22,7 +22,10 @@ function Search() {
         
         const getRigInfo = async () => {
             const rigInfo = await API.getBoosterInfo();
-            console.log(rigInfo)
+            const newArray = rigInfo.slice(-1).pop()
+            console.log(newArray)
+            setHours(newArray.hours)
+            setTemp(newArray.temp)
         }
 
         getRigInfo()
@@ -32,13 +35,24 @@ function Search() {
     // getBook function uses the API get book function that uses the Google Books API and searches with the useRef value that the user sets
     const setBoosterInfo = () => {
         API.setInfo(hoursRef.current.value ,tempRef.current.value)
-        .then(res => console.log(res)) 
+        .then(res => console.log(res))
         // .then(res => setTemp(res.data))
         .catch(err => console.log(err));
     }
 
+    const refresh = async () => {
+        const rigInfo = await API.getBoosterInfo();
+        const newArray = rigInfo.slice(-1).pop()
+        setHours(newArray.hours)
+        setTemp(newArray.temp)
+    }
+
     const handleSubmit = () => {
         setBoosterInfo()
+    }
+
+    const handleRefresh = () => {
+        refresh()
     }
 
     return(
@@ -46,11 +60,11 @@ function Search() {
             <div className="row bannerBox text-center">
                 <div className="col-12 col-sm-6">
                     <h1>Rig Hours</h1>
-                    <h1>0</h1>
+                    <h1>{hours}</h1>
                 </div>
                 <div className="col-12 col-sm-6">
                     <h1>Rig Temp</h1>
-                    <h1>0°</h1>
+                    <h1>{temp}°</h1>
                 </div>
             </div>
             <div className="row">
@@ -65,6 +79,10 @@ function Search() {
                         }}
                         inputRef={hoursRef}
                     />
+                    <br></br><br></br>
+                    <Button variant="contained" color="primary" className="userBtn" onClick={handleRefresh}>
+                        Refresh
+                    </Button>
                 </div>
                 <div className="col-0 col-sm-2"></div>
                 <div className="col-12 col-sm-5 bannerBox text-center submitPanel">

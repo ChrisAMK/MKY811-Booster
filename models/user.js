@@ -5,7 +5,6 @@ module.exports = function(sequelize, DataTypes) {
     hours: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
 
     temp: {
