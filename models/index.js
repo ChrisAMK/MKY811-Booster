@@ -17,9 +17,11 @@ if (config.use_env_variable) {
   });
 } else {
   console.log("Bottom 3333333333333333")
+  console.log(config.database, config, username + "2222222222")
   var sequelize = new Sequelize(config.database, config.username, config.password, {
     host: "127.0.0.1",
-    dialect: "mysql"
+    dialect: "mysql",
+
   });
 
 }
