@@ -11,9 +11,14 @@ var db        = {};
 console.log("***8888888888" + env)
 console.log("99999999999999" + config.dialect)
 if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config.dialect);
+  var sequelize = new Sequelize(process.env[config.use_env_variable], {
+    dialect: "mysql"
+  });
 } else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config.dialect);
+  var sequelize = new Sequelize(config.database, config.username, config.password, {
+    host: "127.0.0.1",
+    dialect: "mysql"
+  });
 
 }
 
