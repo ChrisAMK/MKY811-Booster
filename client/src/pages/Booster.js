@@ -23,7 +23,6 @@ function Search() {
         const getRigInfo = async () => {
             const rigInfo = await API.getBoosterInfo();
             const newArray = rigInfo.slice(-1).pop()
-            console.log(newArray)
             setHours(newArray.hours)
             setTemp(newArray.temp)
         }
@@ -59,11 +58,11 @@ function Search() {
         <React.Fragment>
             <div className="row bannerBox text-center">
                 <div className="col-12 col-sm-6">
-                    <h1>Rig Hours</h1>
+                    <h1>Booster Hours</h1>
                     <h1>{hours}</h1>
                 </div>
                 <div className="col-12 col-sm-6">
-                    <h1>Rig Temp</h1>
+                    <h1>Booster Temp</h1>
                     <h1>{temp}°</h1>
                 </div>
             </div>
@@ -86,7 +85,7 @@ function Search() {
                 </div>
                 <div className="col-0 col-sm-2"></div>
                 <div className="col-12 col-sm-5 bannerBox text-center submitPanel">
-                <Typography id="discrete-slider" gutterBottom>
+                    <Typography id="discrete-slider" gutterBottom>
                         Select Engine Temperature
                     </Typography>
                     <TextField

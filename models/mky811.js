@@ -2,6 +2,12 @@
 module.exports = function(sequelize, DataTypes) {
   const MKY811 = sequelize.define("MKY811", {
     // The email cannot be null, and must be a proper email before creation
+    time: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true
+    },
+
     hours: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -13,6 +19,9 @@ module.exports = function(sequelize, DataTypes) {
     }
 
   });
+
+  MKY811.removeAttribute('createdAt');
+  MKY811.removeAttribute('updatedAt');
 
   return MKY811
 
