@@ -11,7 +11,7 @@ module.exports = function(server) {
   server.post("/api/booster", (req, res) => {
     console.log(req.body)
     db.MKY811.create({
-      
+      time: Date.now(),
       hours: req.body.hours,
       temp: req.body.temp
     })

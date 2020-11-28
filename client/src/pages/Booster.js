@@ -23,8 +23,14 @@ function Search() {
         const getRigInfo = async () => {
             const rigInfo = await API.getBoosterInfo();
             const newArray = rigInfo.slice(-1).pop()
-            setHours(newArray.hours)
-            setTemp(newArray.temp)
+            if (newArray === null) {
+                setHours(newArray.hours)
+                setTemp(newArray.temp)
+            } else {
+                setHours(0)
+                setTemp(0)
+            }
+            
         }
 
         getRigInfo()

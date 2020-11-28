@@ -16,12 +16,15 @@ module.exports = function(sequelize, DataTypes) {
     temp: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
 
-  });
+    
 
-  MKY811.removeAttribute('createdAt');
-  MKY811.removeAttribute('updatedAt');
+  }, 
+  {
+    timestamps: false
+  }
+  );
 
   return MKY811
 
