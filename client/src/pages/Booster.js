@@ -21,16 +21,12 @@ function Search() {
     useEffect(() => {
         
         const getRigInfo = async () => {
-            const rigInfo = await API.getBoosterInfo();
-            const newArray = rigInfo.slice(-1).pop()
-            if (newArray === null) {
-                setHours(newArray.hours)
-                setTemp(newArray.temp)
-            } else {
+            const rigInfo = await API.getLastLog();
+
+            if (rigInfo.length === 0) {
                 setHours(0)
                 setTemp(0)
             }
-            
         }
 
         getRigInfo()
@@ -41,15 +37,19 @@ function Search() {
     const setBoosterInfo = () => {
         API.setInfo(hoursRef.current.value ,tempRef.current.value)
         .then(res => console.log(res))
-        // .then(res => setTemp(res.data))
         .catch(err => console.log(err));
     }
 
     const refresh = async () => {
-        const rigInfo = await API.getBoosterInfo();
-        const newArray = rigInfo.slice(-1).pop()
-        setHours(newArray.hours)
-        setTemp(newArray.temp)
+        const rigInfo = await API.getLastLog();
+        console.log(rigInfo);
+        if (rigInfo.length === 0) {
+            setHours(0)
+            setTemp(0)
+        } else {
+            setHours(rigInfo[0].hours)
+            setTemp(rigInfo[0].temp)
+        }
     }
 
     const handleSubmit = () => {

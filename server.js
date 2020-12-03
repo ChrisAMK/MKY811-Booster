@@ -35,3 +35,11 @@ db.sequelize.sync().then(() => {
     console.log(`🌎 ==> API server now on port ${PORT}!`);
   });
 });
+
+
+
+//id: {
+//   type: DataTypes.INTEGER,
+//   primaryKey: true,
+//   autoIncrement: true
+// },s

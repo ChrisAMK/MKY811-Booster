@@ -1,16 +1,14 @@
 // Creating our User model
 module.exports = function(sequelize, DataTypes) {
   const MKY811 = sequelize.define("MKY811", {
-    // The email cannot be null, and must be a proper email before creation
-    time: {
+    clientID: {
       type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true
+      allowNull: true
     },
 
-    hours: {
+    topic: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true
     },
 
     temp: {
@@ -18,9 +16,23 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
 
-    
+    hours: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
-  }, 
+    time: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    createdAt: {
+      type: 'TIMESTAMP',
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      allowNull: false
+    }
+
+  },
   {
     timestamps: false
   }

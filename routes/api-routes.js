@@ -1,7 +1,5 @@
 // Requiring our models and passport as we've configured it
 const db = require("../models");
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 
 module.exports = function(server) {
   // Using the passport.authenticate middleware with our local strategy.
@@ -24,6 +22,18 @@ module.exports = function(server) {
       .then(result => res.json(result))
       .catch(error => console.log(error))
   });
+
+  server.get("/api/last", (req, res) => {
+    db.MKY811.findAll({
+      limit: 1,
+      where: {
+       // Future Conditions 
+      },
+      order: [[ 'id', 'DESC' ]]
+    })
+    .then(result => res.json(result))
+    .catch(error => console.log(error))
+  })
 
   
 };
