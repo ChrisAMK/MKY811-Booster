@@ -21,15 +21,20 @@ function Search() {
     useEffect(() => {
         
         const getRigInfo = async () => {
+            console.log("Time:")
             const rigInfo = await API.getLastLog();
-
+            console.log(rigInfo);
             if (rigInfo.length === 0) {
                 setHours(0)
                 setTemp(0)
+            } else {
+                setHours(rigInfo[0].hours)
+                setTemp(rigInfo[0].temp)
             }
         }
 
-        getRigInfo()
+        setInterval(getRigInfo, 1000)
+        // getRigInfo()
 
     }, [])
 
