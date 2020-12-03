@@ -21,7 +21,8 @@ function Search() {
     useEffect(() => {
         
         const getRigInfo = async () => {
-            console.log("Time:")
+            console.log("Time: ")
+            
             const rigInfo = await API.getLastLog();
             console.log(rigInfo);
             if (rigInfo.length === 0) {
