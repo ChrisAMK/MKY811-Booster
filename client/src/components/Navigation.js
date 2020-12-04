@@ -7,7 +7,7 @@ function Navigation() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light">
       <Link className="navbar-brand" to="/">
-        Booster Data
+        <img src={require("../assets/mckays.png")} className="logo" alt="logo"></img>
       </Link>
       <div>
         <ul className="navbar-nav nav-links">

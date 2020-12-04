@@ -1,5 +1,7 @@
 * {
-    font-family: 'roboto', cursive;
+    font-family: "Heebo", sans-serif;
+    font-weight: 900;
+    
 }
 
 .bannerBox {
@@ -36,4 +38,8 @@ input {
 
 .noMatch {
     text-align: center;
+}
+
+.logo {
+    height: 50px;
 }
