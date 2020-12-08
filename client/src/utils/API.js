@@ -17,11 +17,13 @@ export default {
             hours: hours,
             temp: temp
         })
-        .then(result => result.data)
+        .then(result => result.data);
     },
 
     getLastLog: () => {
         return axios.get("/api/last").then(result => result.data);
-    }
+    },
+
+
 
 }

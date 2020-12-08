@@ -51,7 +51,7 @@ function Booster() {
           name: 'Monday', uv: 4000, pv: 2400, amt: 2400,
         },
         {
-          name: 'Tuesday', uv: 3000, pv: 1398, amt: 2210,
+          name: 'Tuesday', uv: 9000, pv: 1398, amt: 2210,
         },
         {
           name: 'Wednesday', uv: 2000, pv: 9800, amt: 2290,
