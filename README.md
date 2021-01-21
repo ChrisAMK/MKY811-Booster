@@ -1,4 +1,4 @@
-# Truck Safe&middot; ![license](https://img.shields.io/badge/license-Academic%20Free%20License%20v3.0-blue) ![Maker's Mark](https://img.shields.io/github/repo-size/ChrisAMK/README-Generator?style=plastic)
+# McKAY Rig Data&middot; ![license](https://img.shields.io/badge/license-Academic%20Free%20License%20v3.0-blue) ![Maker's Mark](https://img.shields.io/github/repo-size/ChrisAMK/README-Generator?style=plastic)
 
 ## Deployed Site
 https://mky0811.herokuapp.com/
