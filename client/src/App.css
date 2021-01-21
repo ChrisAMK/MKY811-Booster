@@ -43,3 +43,20 @@ input {
 .logo {
     height: 50px;
 }
+
+.gauge {
+    height: 200px;
+    width: 200px;
+}
+
+.gaugePic {
+    background-size: cover;
+    background-image: url("./assets/340x340.png");
+    height: 100%;
+}
+
+.firstGauge {
+    height: 100%;
+    padding-top: 40px;
+    
+}

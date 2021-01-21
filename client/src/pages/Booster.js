@@ -1,9 +1,12 @@
+
+// eslint-disable-next-line
 import React, { useState, PureComponent } from "react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import Button from '@material-ui/core/Button';
 //import Switch from '@material-ui/core/Switch';
+import GaugeChart from 'react-gauge-chart';
 
 import API from "../utils/API";
 
@@ -75,11 +78,20 @@ function Booster() {
         <React.Fragment>
             <div className="row bannerBox text-center">
                 <div className="col-12 col-sm-6">
-                    <h1>Booster Temp</h1>
-                    <h1>{temp}°</h1>
+                    <h1>Engine RPM</h1>
+                    <div className="gauge">
+                        <div className="gaugePic">
+                            <GaugeChart id="gauge-chart2"
+                                className="firstGauge"
+                                nrOfLevels={20}
+                                percent={0.86}
+                                arcWidth={0.2}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className="col-12 col-sm-6">
-                    <h1>Booster Hours</h1>
+                    <h1>Engine RPM</h1>
                     <h1>{hours}</h1>
                 </div>
             </div>
