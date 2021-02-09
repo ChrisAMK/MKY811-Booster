@@ -4,6 +4,10 @@
     
 }
 
+.assetSelection {
+    border: solid;
+}
+
 .bannerBox {
     margin-bottom: 30px;
     background-color: lightgray;
@@ -12,6 +16,17 @@
     font-family: 'Overpass', sans-serif;
     padding-top: 10px; padding-bottom: 10px;
     border-style: solid;
+}
+
+.controlPanelBox {
+    margin-bottom: 30px;
+    background-color: lightgray;
+    text-align: center;
+    border-radius: 5px;
+    font-family: 'Overpass', sans-serif;
+    padding-top: 10px; padding-bottom: 10px;
+    border-style: solid;
+    padding-bottom: 50px;
 }
 
 .submitPanel {
@@ -45,9 +60,15 @@ input {
 }
 
 .gauge {
-    height: 200px;
-    width: 200px;
+    height: 350px;
+    width: 100%;
 }
+
+.bigGauge {
+    height: 535px;
+    width: 100%;
+}
+
 
 .gaugePic {
     background-size: cover;
@@ -56,7 +77,8 @@ input {
 }
 
 .firstGauge {
-    height: 100%;
-    padding-top: 40px;
+    
+    
+    padding-top: 100px;
     
 }

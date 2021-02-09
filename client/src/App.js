@@ -4,7 +4,8 @@ import "./App.css";
 import Navigation from "./components/Navigation";
 import Banner from "./components/Banner";
 import NoMatch from "./pages/NoMatch";
-import Booster from "./pages/Booster";
+import Rig from "./pages/Rig";
+import Mode from "./components/Mode";
 
 
 
@@ -15,16 +16,18 @@ function App() {
     <React.Fragment>
       <Router>
         <Navigation />
+        <Mode />
+        
         <div className="container">
         <Banner />
           <Switch>
 
             <Route exact path="/">
-              <Booster />
+              <Rig />
             </Route>
 
-            <Route exact path="/booster">
-              <Booster />
+            <Route exact path="/rig">
+              <Rig />
             </Route>
 
             <Route path="/">
