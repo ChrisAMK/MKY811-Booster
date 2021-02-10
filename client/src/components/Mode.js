@@ -12,13 +12,13 @@ function Mode() {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav mr-auto modeSpace">
                 <li className="nav-item active modeSpace">
-                  <Link to={"/Gauges"}><a className="nav-link" href="/gauges">Control Panel <span className="sr-only">(current)</span></a></Link>
+                  <Link to={"/Gauges"} className="nav-link">Control Panel <span className="sr-only">(current)</span></Link>
                 </li>
                 <li className="nav-item modeSpace">
-                  <Link to={"/Graphs"}><a className="nav-link" href="/Graphs">Graphs</a></Link> 
+                  <Link to={"/Graphs"} className="nav-link">Graphs</Link> 
                 </li>
                 <li className="nav-item modeSpace">
-                  <Link to={"/Alerts"}><a className="nav-link" href="/Graphs">Alerts</a></Link>
+                  <Link to={"/Alerts"} className="nav-link">Alerts</Link>
                 </li>
               
               </ul>
@@ -26,7 +26,7 @@ function Mode() {
           </ nav>
         </div>
       </div>
-      <a href="#" style={{width: "100%", margin: "auto", textAlign: "center", float: "none", display: "block"}}><span role="img" aria-label="Close Menu">&#9195;</span></a>
+      <a href="#Collapse" style={{width: "100%", margin: "auto", textAlign: "center", float: "none", display: "block"}}><span role="img" aria-label="Close Menu">&#9195;</span></a>
       <div className="expandable">
       </div>
     </div>

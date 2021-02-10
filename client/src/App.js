@@ -20,24 +20,25 @@ function App() {
         <Navigation />
         <Mode />
 
-        <Route exact path="/Gauges">
-          <Guages />
-        </Route>
-
-        <Route exact path="/Graphs">
-          <Graphs />
-        </Route>
-
-        <Route exact path="/Alerts">
-          <Guages />
-        </Route>
+        
 
         <Switch>
+          <Route exact path="/Gauges">
+            <Guages />
+          </Route>
+
+          <Route exact path="/Graphs">
+            <Graphs />
+          </Route>
+
+          <Route exact path="/Alerts">
+            <Guages />
+          </Route>
 
           <Route exact path="/">
             <Guages />
           </Route>
-          
+
           <Route path="/">
             <NoMatch />
           </Route>

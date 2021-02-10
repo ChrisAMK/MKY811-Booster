@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // Uses React Router Links
 function Navigation() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light navWhole" style={{marginBottom: "0px"}}>
+    <nav className="navbar navbar-expand-lg navbar-light navWhole" style={{marginBottom: "0px", height: "80px"}}>
       
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
