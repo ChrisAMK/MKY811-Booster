@@ -1,42 +1,48 @@
+import 'devextreme/dist/css/dx.common.css';
+import 'devextreme/dist/css/dx.light.css';
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Navigation from "./components/Navigation";
-import Banner from "./components/Banner";
 import NoMatch from "./pages/NoMatch";
-import Rig from "./pages/Rig";
 import Mode from "./components/Mode";
+import Guages from './pages/Guage';
+import Graphs from './pages/Graphs';
 
 
 
 function App() {
 
-// here is the pathing for the whole app we use react router Switch and Routes to make it possible to navigate the site
+  // here is the pathing for the whole app we use react router Switch and Routes to make it possible to navigate the site
   return (
     <React.Fragment>
       <Router>
         <Navigation />
         <Mode />
-        
-        <div className="container">
-        <Banner />
-          <Switch>
 
-            <Route exact path="/">
-              <Rig />
-            </Route>
+        <Route exact path="/Gauges">
+          <Guages />
+        </Route>
 
-            <Route exact path="/rig">
-              <Rig />
-            </Route>
+        <Route exact path="/Graphs">
+          <Graphs />
+        </Route>
 
-            <Route path="/">
-              <NoMatch />
-            </Route>
+        <Route exact path="/Alerts">
+          <Guages />
+        </Route>
 
-          </Switch>
-        </div>
-      
+        <Switch>
+
+          <Route exact path="/">
+            <Guages />
+          </Route>
+          
+          <Route path="/">
+            <NoMatch />
+          </Route>
+        </Switch>
+
       </Router>
     </React.Fragment>
   );

@@ -1,13 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   } from 'recharts';
-import Button from '@material-ui/core/Button';
-//import Switch from '@material-ui/core/Switch';
-import GaugeChart from 'react-gauge-chart';
-
-import API from "../utils/API";
 
 function Graphics() {
 
