@@ -4,6 +4,32 @@
     
 }
 
+body {
+    background-color: rgb(67, 67, 67);
+}
+
+html {
+    background-color: rgb(67, 67, 67);
+}
+
+#gauge-demo {
+    height: 50px;
+    padding-bottom: 350px;
+    background-color: rgb(67, 67, 67);
+}
+
+.gaugeImg {
+    position: absolute;
+    width: 1487px;
+    position:absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-top: -20px;
+    z-index: 0;
+}
+
+
 .assetSelection {
     border: solid;
 }
@@ -11,6 +37,7 @@
 .modeContainer {
     height: 60px;
 }
+
 
 .bannerBox {
     margin-bottom: 30px;
@@ -20,6 +47,10 @@
     font-family: 'Overpass', sans-serif;
     padding-top: 10px; padding-bottom: 10px;
     border-style: solid;
+}
+
+.sideGauge {
+    height: 100px
 }
 
 .controlPanelBox {
@@ -93,22 +124,15 @@ input {
     padding-top: 100px;
     
 }
-#gauge-demo {
-    height: 50px;
-    padding-bottom: 350px;
 
-
-    
-}
 
 #gauge-container {
-    
+    position: relative;
     text-align: center;
     margin: auto;
 
-    z-index: -99;
     background-repeat: no-repeat;
-    width: 1300px;
+    width: 1500px;
     height: 200px;
 }
 
@@ -219,3 +243,32 @@ height: 500px; */
     float: "none";
     display: "block"
 }
+
+.placeholder {
+    height: 100px;
+}
+
+.coolantLevel {
+    font-size: x-small;
+}
+  
+@media screen and (min-width: 100px) {
+    #gauge-container {
+        display: none;
+    }
+
+    .gaugeImg {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    #gauge-container {
+        display: block;
+    }
+
+    .gaugeImg {
+        display: block;
+    }
+
+    }
