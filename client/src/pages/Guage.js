@@ -45,53 +45,49 @@ function Guages() {
         
             const lastEntry = await API.getLastEntry();
             console.log(lastEntry)
-            setEngineRpm(lastEntry[0].engineRPM);
-            setOilPressure(lastEntry[0].oilPressure);
-            setEngineHours(lastEntry[0].engineHours);
-            setCoolantTemp(lastEntry[0].coolantTemp);
-            setHeadPosition(lastEntry[0].headPosition);
-            setHoleDepth(lastEntry[0].holeDepth);
-            setRotationRpm(lastEntry[0].rotationRpm);
-            setPenetrationRate(lastEntry[0].penetrationRate);
-            setMastAngle(lastEntry[0].mastAngle);
-            setDeckRoll(lastEntry[0].deckRoll);
-            setDeckPitch(lastEntry[0].deckPitch);
-            setRotationReversePressure(lastEntry[0].rotationReversePressure);
-            setRotationForwardPressure(lastEntry[0].rotationForwardPressure);
-            setHoldback(lastEntry[0].holdBackPressure);
-            setPulldown(lastEntry[0].pulldownPressure);
-            setWaterPressure(lastEntry[0].waterPressure);
-            setWinchUp(lastEntry[0].winchUpPressure);
-            setWinchDown(lastEntry[0].winchDownPressure);
-            setBitWeight(lastEntry[0].bitWeight);
-            setDriller(lastEntry[0].driller);
+            setEngineRpm(lastEntry[0].engineRPM || 0);
+            setOilPressure(lastEntry[0].oilPressure || 0);
+            setEngineHours(lastEntry[0].engineHours || 0);
+            setCoolantTemp(lastEntry[0].coolantTemp || 0);
+            setHeadPosition(lastEntry[0].headPosition || 0);
+            setHoleDepth(lastEntry[0].holeDepth || 0);
+            setRotationRpm(lastEntry[0].rotationRpm || 0);
+            setPenetrationRate(lastEntry[0].penetrationRate || 0);
+            setMastAngle(lastEntry[0].mastAngle || 0);
+            setDeckRoll(lastEntry[0].deckRoll || 0);
+            setDeckPitch(lastEntry[0].deckPitch || 0);
+            setRotationReversePressure(lastEntry[0].rotationReversePressure || 0);
+            setRotationForwardPressure(lastEntry[0].rotationForwardPressure || 0);
+            setHoldback(lastEntry[0].holdBackPressure || 0);
+            setPulldown(lastEntry[0].pulldownPressure || 0);
+            setWaterPressure(lastEntry[0].waterPressure || 0);
+            setWinchUp(lastEntry[0].winchUpPressure || 0);
+            setWinchDown(lastEntry[0].winchDownPressure || 0);
+            setBitWeight(lastEntry[0].bitWeight || 0);
+            setDriller(lastEntry[0].driller || 0);
             
             //  
 
             /// BOOLEANS
-            if (lastEntry[0].coolantLevelSensor === "1") {
-                setCoolantLevel("green");
+            if (lastEntry[0].coolantLevelSensor === false) {
+                setCoolantLevel("red");
             } else {
                 setCoolantLevel("green");
             }
     
-            if (lastEntry[0].footClampPressureSwitch === "1") {
-                setFootClamp("green");
-            } else {
+            if (lastEntry[0].footClampPressureSwitch === false) {
                 setFootClamp("red");
+            } else {
+                setFootClamp("green");
             }
     
-            if (lastEntry[0].headBackRack === "1") {
-                setHeadBackRack("green");
-            } else {
+            if (lastEntry[0].headBackRackStatus === false) {
                 setHeadBackRack("red");
+            } else {
+                setHeadBackRack("green");
             }
         }
         
-
-
-
-
         getData()
 
         

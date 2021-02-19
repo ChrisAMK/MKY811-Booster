@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  const MKY021 = sequelize.define("MKY021", {
+  const MKY021RAW = sequelize.define("MKY021RAW", {
     // The email cannot be null, and must be a proper email before creation
     time: {
       type: DataTypes.INTEGER,
@@ -141,5 +141,5 @@ module.exports = function(sequelize, DataTypes) {
 
   // Creating a custom method for our User model. This will check if an unhashed password entered by the user can be compared to the hashed password stored in our database
   
-  return MKY021;
+  return MKY021RAW;
 };

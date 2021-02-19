@@ -1,11 +1,11 @@
 module.exports = function(sequelize, DataTypes) {
-  const MKY021 = sequelize.define("MKY021", {
+  const MKY08 = sequelize.define("MKY08", {
     // The email cannot be null, and must be a proper email before creation
-    time: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+  time: {
+    type: DataTypes.STRING,
+    allowNull: true
   },
-  
+
   engineRPM: {
     type: DataTypes.INTEGER,
     allowNull: true
@@ -116,16 +116,6 @@ module.exports = function(sequelize, DataTypes) {
     allowNull: true,
   },
 
-  bitWeight: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-
-  driller: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  }
-
   // createdAt: {
   //   type: 'TIMESTAMP',
   //   defaultValue: literal('CURRENT_TIMESTAMP'),
@@ -141,5 +131,5 @@ module.exports = function(sequelize, DataTypes) {
 
   // Creating a custom method for our User model. This will check if an unhashed password entered by the user can be compared to the hashed password stored in our database
   
-  return MKY021;
+  return MKY08;
 };
