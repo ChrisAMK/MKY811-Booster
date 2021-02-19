@@ -2,22 +2,8 @@
   "development": {
     "username": "root",
     "password": "root",
-    "database": "cms",
+    "database": "rig021",
     "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": "root",
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "fqjl2vn3juy57dg3",
-    "password": "swrilguc2fanqlum",
-    "database": "ofmtuee15e4rdq5f",
-    "host": "aqx5w9yc5brambgl.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   }
 

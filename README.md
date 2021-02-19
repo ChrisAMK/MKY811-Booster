@@ -3,7 +3,7 @@
 ## Deployed Site
 https://mky0811.herokuapp.com/
 
-https://github.com/ChrisAMK/MKY811-Booster
+https://github.com/ChrisAMK/MKY-Drill-Monitoring
 
 ## Description 
 This Repo is a React Web App that is pulling data from a MySQL Database and displaying that data for users in a graphical sense. The Information is sent from Exploration Drilling Rigs around Regional Western Australia via Satellite through the MQTT Protocol.
@@ -34,7 +34,3 @@ Click the Deployed Site Link, choose whic machine data you want to view
 If there are any questions feel free to reach me at [Github](https://github.com/ChrisAMK)
 
 or E-mail me at chriskl@live.com
-
-![screenshot](./models/screen1.jpg)
-
-![screenshot](./models/screen2.jpg)

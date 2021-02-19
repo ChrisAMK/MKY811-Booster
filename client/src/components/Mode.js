@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Mode() {
   return (
     <div id="content">
-      <a href="#nav" style={{backgroundColor: "rgb(123, 123, 123)", width: "100%", margin: "auto", textAlign: "center", float: "none", display: "block", zIndex:"50000"}}><span role="img" aria-label="Collapse Menu">&#9196;</span></a>
+      <a href="#nav" style={{backgroundColor: "none", width: "100%", margin: "auto", textAlign: "center", float: "none", display: "block", zIndex:"50000"}}><span role="img" aria-label="Collapse Menu">&#9196;</span></a>
       
       <div className="expandable" id="nav">
         <div className="modeContainer">
@@ -26,7 +26,7 @@ function Mode() {
           </ nav>
         </div>
       </div>
-      <a href="#Collapse" style={{backgroundColor: "rgb(123, 123, 123)", width: "100%", margin: "auto", textAlign: "center", float: "none", display: "block", zIndex:"50000"}}><span role="img" aria-label="Close Menu">&#9195;</span></a>
+      <a href="#Collapse" style={{backgroundColor: "none", width: "100%", margin: "auto", textAlign: "center", float: "none", display: "block", zIndex:"50000"}}><span role="img" aria-label="Close Menu">&#9195;</span></a>
       <div className="expandable">
       </div>
     </div>

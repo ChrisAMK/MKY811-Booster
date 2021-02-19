@@ -6,25 +6,20 @@ module.exports = function(server) {
   // If the user has valid login credentials, send them to the members page.
   // Otherwise the user will be sent an error
 
-  server.post("/api/booster", (req, res) => {
-    console.log(req.body)
-    db.MKY811.create({
-      time: Date.now(),
-      hours: req.body.hours,
-      temp: req.body.temp
+  server.get("/api/rig021/last", (req, res) => {
+    db.MKY021.findAll({
+      limit: 1,
+      where: {
+       // Future Conditions 
+      },
+      order: [[ 'id', 'DESC' ]]
     })
-      .then(result => res.json(result))
-      .catch(error => console.log(error))
-  })
+    .then(result => res.json(result))
+    .catch(error => console.log(error))
+  }),
 
-  server.get("/api/booster", (req, res) => {
-    db.MKY811.findAll({})
-      .then(result => res.json(result))
-      .catch(error => console.log(error))
-  });
-
-  server.get("/api/last", (req, res) => {
-    db.MKY811.findAll({
+  server.get("/api/rig08/last", (req, res) => {
+    db.MKY021.findAll({
       limit: 1,
       where: {
        // Future Conditions 
@@ -34,6 +29,5 @@ module.exports = function(server) {
     .then(result => res.json(result))
     .catch(error => console.log(error))
   })
-
   
 };

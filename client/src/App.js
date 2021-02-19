@@ -17,14 +17,16 @@ function App() {
   return (
     <React.Fragment>
       <Router>
-        <Navigation />
-        <Mode />
-
+        <div className="">
+          
+          <Navigation />
+          <Mode />
+        
         <Switch>
           <Route exact path="/Gauges">
               <Guages />
           </Route>
-
+          
           <Route exact path="/Graphs">
             <Graphs />
           </Route>
@@ -41,6 +43,7 @@ function App() {
             <NoMatch />
           </Route>
         </Switch>
+        </div>
 
       </Router>
     </React.Fragment>

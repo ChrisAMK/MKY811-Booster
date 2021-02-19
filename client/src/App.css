@@ -8,14 +8,12 @@ body {
     background-color: rgb(67, 67, 67);
 }
 
-html {
-    background-color: rgb(67, 67, 67);
-}
+
 
 #gauge-demo {
     height: 50px;
     padding-bottom: 350px;
-    background-color: rgb(67, 67, 67);
+    background-color: "none";
 }
 
 .gaugeImg {
@@ -25,10 +23,16 @@ html {
     left: 0;
     right: 0;
     margin: 0 auto;
-    margin-top: -20px;
+    margin-top: -15px;
     z-index: 0;
 }
 
+.backingPic {
+
+    background-image: url("./assets/IMG_6428.JPG");
+    background-size: fill
+
+}
 
 .assetSelection {
     border: solid;
@@ -89,8 +93,9 @@ input {
 }
 
 .navbar {
-    background-color: rgb(165, 0, 0);;
-    margin-bottom: 1px;
+
+    background-color: "none";
+    background-repeat: space;
 }
 
 .noMatch {
@@ -112,25 +117,11 @@ input {
 }
 
 
-.gaugePic {
-    background-size: cover;
-    background-image: url("./assets/340x340.png");
-    height: 100%;
-}
-
-.firstGauge {
-    
-    
-    padding-top: 100px;
-    
-}
-
-
 #gauge-container {
     position: relative;
     text-align: center;
     margin: auto;
-
+    margin-top: 20px;
     background-repeat: no-repeat;
     width: 1500px;
     height: 200px;
@@ -223,7 +214,7 @@ height: 500px; */
 }
 
 .expandable {
-    background: #fff;
+    background: "none";
     overflow: hidden;
     color: #000;  
     line-height: 50px;
