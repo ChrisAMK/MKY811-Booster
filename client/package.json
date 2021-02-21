@@ -51,7 +51,7 @@
     "use-places-autocomplete": "^1.5.4"
   },
   "devDependencies": {
-    "react-app-rewired": "^2.1.8",
-    "devextreme-themebuilder": "^20.2.4"
+    "devextreme-themebuilder": "^20.2.4",
+    "react-app-rewired": "^2.1.8"
   }
 }
