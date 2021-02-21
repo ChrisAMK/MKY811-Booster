@@ -2,7 +2,6 @@
 import React, { useState, PureComponent, useEffect, Component } from "react";
 // eslint-disable-next-line
 import API from "../utils/API";
-import Interval from 'react-interval-rerender'
 
 //import Switch from '@material-ui/core/Switch';
 import CircularGauge, { Geometry, Scale as CircularScale, Size as CircularSize, ValueIndicator as CircularValueIndicator } from 'devextreme-react/circular-gauge';
