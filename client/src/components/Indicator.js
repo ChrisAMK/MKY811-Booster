@@ -14,7 +14,7 @@ export default function Indicator(props) {
       <Scale
         startValue={props.inverted ? 100 : 0}
         endValue={props.inverted ? 0 : 100}
-        tickInterval={50}
+        tickInterval={10}
       />
       <Geometry startAngle={props.startAngle} endAngle={props.endAngle} />
       <ValueIndicator color={props.color} />

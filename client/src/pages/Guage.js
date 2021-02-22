@@ -91,7 +91,6 @@ function Guages() {
 
         let timer = setInterval(() => {
             getData()
-            console.log("HEY")
         }, 1000);
 
         return () => {
@@ -160,7 +159,7 @@ function Guages() {
                             </div>
                     &nbsp;
                     <div className="center-section">
-                                <CircularGauge value={parseInt(rotationForwardPressure)}>
+                                <CircularGauge value={parseInt(mainPump)}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
@@ -179,7 +178,7 @@ function Guages() {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span>{rotationForwardPressure}</span>
+                                    <span>{mainPump}</span>
                                 </div>
                                 <h4 className="GaugeTitle">Rotation Pressure</h4>
                             </div>
@@ -269,14 +268,14 @@ function Guages() {
                                 </div>
                                 <div className="sideGauge">
                                     <p>Head Position</p>
-                                    <h5>{parseInt(headPosition)}</h5>
+                                    <h4>{headPosition} mm</h4>
                                 </div>
                                 <div className="sideGauge">
                                     <p>Hole Depth</p>
-                                    <h5>{holeDepth} m</h5>
+                                    <h4>{holeDepth} m</h4>
                                 </div><div className="sideGauge">
                                     <p>Driller ID</p>
-                                    <h5>{driller}</h5>
+                                    <h6>{driller}</h6>
                                 </div>
                             </div>
                     &nbsp;
@@ -311,7 +310,7 @@ function Guages() {
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={400}
+                                        endValue={200}
                                         tickInterval={50}
                                         minorTickInterval={10}
                                     />
@@ -377,7 +376,7 @@ function Guages() {
                                 </div>
                                 <div className="sideGauge">
                                     <p>Engine Hours</p>
-                                    <h5>{engineHours} Hrs</h5>
+                                    <h4>{engineHours} Hrs</h4>
                                 </div>
                             </div>
                         </div>
