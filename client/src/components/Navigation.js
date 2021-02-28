@@ -20,8 +20,8 @@ function Navigation() {
               Asset Selection
             </a>
             <div className="dropdown-menu modeSpace dropDown" aria-labelledby="navbarDropdown">
-              <a className="dropdown-item" href="/Action">Rig 021</a>
-              <a className="dropdown-item" href="AAction">Rig 008</a>
+              <a className="dropdown-item" href="/Rig021">Rig 021</a>
+              <a className="dropdown-item" href="Rig008">Rig 008</a>
               {/* <div className="dropdown-divider"></div>
               <a className="dropdown-item" href="/SomethingElse">Something else here</a> */}
             </div>

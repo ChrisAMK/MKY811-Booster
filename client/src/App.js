@@ -23,19 +23,25 @@ function App() {
           <Mode />
         
         <Switch>
-          <Route exact path="/Gauges">
-              <Guages />
-          </Route>
-          
-          <Route exact path="/Graphs">
-            <Graphs />
-          </Route>
 
-          <Route exact path="/Alerts">
+          <Route exact path="/Rig021">
             <Guages />
           </Route>
 
-          <Route exact path="/">
+
+          <Route path="/Gauges">
+              <Guages />
+          </Route>
+          
+          <Route path="/Graphs">
+            <Graphs />
+          </Route>
+
+          <Route path="/Alerts">
+            <Guages />
+          </Route>
+
+          <Route path="/">
             <Guages />
           </Route>
 

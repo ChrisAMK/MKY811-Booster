@@ -8,12 +8,52 @@ body {
     background-color: rgb(67, 67, 67);
 }
 
-
+.unit {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    margin-top: -75px;
+    font-size: small;
+    
+}
 
 #gauge-demo {
     height: 50px;
     padding-bottom: 350px;
     background-color: "none";
+}
+
+.engineRpmScale {
+    position: absolute;
+    margin-top: -45px;
+    margin-left: 90px;
+    font-size: smaller
+}
+
+.oilPressureScale {
+    position: absolute;
+    margin-top: -65px;
+    margin-left: 90px;
+    font-size: smaller
+}
+
+.toggleScale {
+    position: absolute;
+    margin-top: 75px;
+    margin-right: 100px;
+    margin-left: -50px;
+    z-index: 90000000000;
+}
+
+.mainPumpScale {
+    position: absolute;
+    margin-top: -70px;
+    margin-left: -20px;
+    font-size: smaller
+}
+
+.sideGuageTitle {
+    font-size: 13px;
 }
 
 #gauge-demo-small {
