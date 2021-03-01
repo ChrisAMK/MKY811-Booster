@@ -3,11 +3,11 @@ import 'devextreme/dist/css/dx.light.css';
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
+import Navigation from "./components/Navigation";
 import NoMatch from "./pages/NoMatch";
-import Rig021 from './rigs/rig021/Rig21';
-import Rig008 from './rigs/rig008/Rig08';
-import Navigation from './components/Navigation';
-import Landing from './pages/Landing';
+import Mode from "./components/Mode";
+import Guages from './pages/Guage';
+import Graphs from './pages/Graphs';
 
 
 
@@ -17,32 +17,40 @@ function App() {
   return (
     <React.Fragment>
       <Router>
-      <Navigation />
+        <div className="">
+          
+          <Navigation />
+          <Mode />
+        
         <Switch>
 
-          <Route exact path="/">
-            <Landing />
+          <Route exact path="/Rig021">
+            <Guages />
           </Route>
-          <Route path="/Rig21">
-            <Rig021 />
+
+
+          <Route path="/Gauges">
+              <Guages />
           </Route>
-          <Route path="/Rig08">
-            <Rig008 />
+          
+          <Route path="/Graphs">
+            <Graphs />
           </Route>
 
           <Route path="/Alerts">
-            <Rig008 />
+            <Guages />
           </Route>
 
-          <Route path="/Statistics">
-            <Rig008 />
+          <Route path="/">
+            <Guages />
           </Route>
 
           <Route path="/">
             <NoMatch />
           </Route>
-
         </Switch>
+        </div>
+
       </Router>
     </React.Fragment>
   );

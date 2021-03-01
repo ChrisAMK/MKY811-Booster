@@ -4,7 +4,7 @@ import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   } from 'recharts';
 
-function Graphics() {
+function Rig21Statistics() {
 
     const data = [
         {
@@ -74,4 +74,4 @@ function Graphics() {
         )
 }
 
-export default Graphics;
+export default Rig21Statistics;

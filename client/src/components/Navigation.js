@@ -1,36 +1,90 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import ReportProblemIcon from '@material-ui/icons/ReportProblem';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import { Link } from 'react-router-dom';
 
-// Navigation component is the Navigation bar at the top of the screen, it is on every page
-// Uses React Router Links
-function Navigation() {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-light navWhole" style={{ height: "80px"}}>
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+});
+
+export default function TemporaryDrawer() {
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  const list = (anchor) => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+      })}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
       
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-          <Link className="navbar-brand" to="/">
-            <img src={require("../assets/mckays.png")} className="logo" alt="logo"></img>
+        {['Home', 'Rig 21', 'Rig 08'].map((text, index) => (
+        <Link to= {(text === "Home") ? '/' : `/${text.replace(/\s/g, '')}` } key={index}>
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <InboxIcon />}</ListItemIcon>
+            <ListItemText primary={text} />         
+          </ListItem>
           </Link>
-          </li>
-          <li className="nav-item dropdown modeSpace">
-            <a className="nav-link dropdown-toggle" href="/Dropdown" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Asset Selection
-            </a>
-            <div className="dropdown-menu modeSpace dropDown" aria-labelledby="navbarDropdown">
-              <a className="dropdown-item" href="/Rig021">Rig 021</a>
-              <a className="dropdown-item" href="Rig008">Rig 008</a>
-              {/* <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="/SomethingElse">Something else here</a> */}
-            </div>
-          </li>
-        </ul>
-      </ div>
-    </ nav>
+        ))}
+        
+      </List>
+      <Divider />
+      <List>
+        {['Statistics', 'Alerts',].map((text, index) => (
+        <Link to= {`/${text.replace(/\s/g, '')}`} key={index}>
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <BarChartIcon /> : <ReportProblemIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        </Link>
+        ))}
+      </List>
+    </div>
+  );
 
-  )
+  return (
+    <div>
+      {['left'].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <Button><img src={require("../assets/mckays.png")} className="logo" alt="logo" onClick={toggleDrawer(anchor, true)}></img></Button>
+          <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+            {list(anchor)}
+          </Drawer>
+        </React.Fragment>
+      ))}
+    </div>
+  );
 }
-
-export default Navigation

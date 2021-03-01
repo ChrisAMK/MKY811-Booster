@@ -124,7 +124,37 @@ module.exports = function(sequelize, DataTypes) {
   driller: {
     type: DataTypes.STRING,
     allowNull: true,
-  }
+  },
+
+  year: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+
+  month: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+
+  date: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+
+  hour: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+
+  minute: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+
+  second: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
 
   // createdAt: {
   //   type: 'TIMESTAMP',

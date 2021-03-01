@@ -8,7 +8,6 @@ import CircularGauge, {
 } from 'devextreme-react/circular-gauge';
 
 export default function CoolantTemp(props) {
-  console.log(props)
   return (
     <CircularGauge value={props.value}>
       <Size width={90} height={90} />

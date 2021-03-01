@@ -1,30 +1,25 @@
 // eslint-disable-next-line
 import React, { useState, PureComponent, useEffect, Component } from "react";
 // eslint-disable-next-line
-import API from "../utils/API";
-
+import API from "../../utils/API";
 
 import { withStyles } from '@material-ui/core/styles';
-import { purple } from '@material-ui/core/colors';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-
 
 //import Switch from '@material-ui/core/Switch';
 import CircularGauge, { Geometry, Scale as CircularScale, Size as CircularSize, ValueIndicator as CircularValueIndicator } from 'devextreme-react/circular-gauge';
-import Indicator from '../components/Indicator';
-import EngineRpm from '../components/engineRpm';
-import OilPressure from '../components/OilPressure';
-import CoolantTemp from '../components/CoolantTemp';
+import Indicator from '../../components/Indicator';
+import EngineRpm from '../../components/engineRpm';
+import OilPressure from '../../components/OilPressure';
+import CoolantTemp from '../../components/CoolantTemp';
 
 import Bulb from 'react-bulb';
 
 const color = '#f05b41';
 
-function Guages() {
+function Rig21Live(props) {
 
     const [engineRpm, setEngineRpm] = useState(0);
     const [oilPressure, setOilPressure] = useState(0);
@@ -67,17 +62,17 @@ function Guages() {
 
     const ScaleSwitch = withStyles({
         switchBase: {
-          color: "#f05b41",
-          '&$checked': {
             color: "#f05b41",
-          },
-          '&$checked + $track': {
-            backgroundColor: "#f05b41",
-          },
+            '&$checked': {
+                color: "#f05b41",
+            },
+            '&$checked + $track': {
+                backgroundColor: "#f05b41",
+            },
         },
         checked: {},
         track: {},
-      })(Switch);
+    })(Switch);
 
     const getData = async () => {
 
@@ -141,11 +136,11 @@ function Guages() {
 
     return (
         <React.Fragment>
-    
+
             {(window.outerWidth > 1500) ?
                 <React.Fragment>
                     <div id="gauge-demo">
-                        <img src={require("../assets/DrillBackground-3.png")} className="gaugeImg" alt="Logo" title="Click to go to Homepage" />
+                        <img src={require("../../assets/DrillBackground-3.png")} className="gaugeImg" alt="Logo" title="Click to go to Homepage" />
                         <div id="gauge-container">
                             <div className="left-section">
                                 <EngineRpm
@@ -192,7 +187,7 @@ function Guages() {
 
                                 <div className="speed-value">
                                     <span>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
-                                    <p className="unit">{(metric) ? 'Bar' : "Psi" }</p>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitle">Water Pressure</h4>
                             </div>
@@ -218,12 +213,12 @@ function Guages() {
 
                                 <div className="speed-value">
                                     <span>{(metric) ? mainPump : Math.floor(mainPump * 14.5038)}</span>
-                                    <p className="unit">{(metric) ? 'Bar' : "Psi" }</p>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitle">Rotation Pressure</h4>
                             </div>
                     &nbsp;
-                    
+
                     <div className="center-section">
                                 <CircularGauge value={(metric) ? bitWeight : (bitWeight * 2.20462)}>
                                     <CircularSize width={260} />
@@ -245,15 +240,15 @@ function Guages() {
 
                                 <div className="speed-value">
                                     <span>{(metric) ? bitWeight : Math.floor(bitWeight * 2.20462)}</span>
-                                    <p className="unit">{(metric) ? 'Kgs' : "Lbs" }</p>
+                                    <p className="unit">{(metric) ? 'Kgs' : "Lbs"}</p>
                                 </div>
                                 <h4 className="GaugeTitle">Bit Weight</h4>
                                 <FormGroup className="toggleScale">
-                                <FormControlLabel
-                                    control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
-                                    label={(metric) ? 'Metric' : 'Imperial'}
-                                    labelPlacement="bottom"
-                                />
+                                    <FormControlLabel
+                                        control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
+                                        label={(metric) ? 'Metric' : 'Imperial'}
+                                        labelPlacement="bottom"
+                                    />
                                 </FormGroup>
                             </div>
                     &nbsp;
@@ -292,7 +287,7 @@ function Guages() {
                                     />
                                 </div>
                                 <CoolantTemp
-                                    value={(metric) ? coolantTemp : (coolantTemp * 9/5) + 32}
+                                    value={(metric) ? coolantTemp : (coolantTemp * 9 / 5) + 32}
                                     inverted={true}
                                     startAngle={90}
                                     endAngle={0}
@@ -354,7 +349,7 @@ function Guages() {
 
                                 <div className="speed-value">
                                     <span>{(metric) ? holdback : Math.floor(holdback * 14.5038)}</span>
-                                    <p className="unit">{(metric) ? 'Bar' : "Psi" }</p>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitle">Holdback Pressure</h4>
                             </div>
@@ -380,10 +375,10 @@ function Guages() {
 
                                 <div className="speed-value">
                                     <span>{(metric) ? pulldown : Math.floor(pulldown * 14.5038)}</span>
-                                    <p className="unit">{(metric) ? 'Bar' : "Psi" }</p>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitle">PullDown Pressure</h4>
-                                
+
                             </div>
                     &nbsp;
                     <div className="center-section">
@@ -441,17 +436,29 @@ function Guages() {
                 </React.Fragment>
                 :
                 // Mobile
+                
+
                 <React.Fragment>
+                    
+                    <div className="mobileScale">
+                        <FormGroup className="toggleScale mobileScale">
+                            <FormControlLabel
+                                control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
+                                label={(metric) ? 'Metric' : 'Imperial'}
+                                labelPlacement="bottom"
+                            />
+                        </FormGroup>
+                    </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
-                                <CircularGauge value={parseInt(waterPressure)}>
+                                <CircularGauge value={(metric) ? waterPressure : ((waterPressure * 14.5038) / 100)}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={200}
-                                        tickInterval={20}
+                                        endValue={(metric) ? 100 : 1500}
+                                        tickInterval={(metric) ? 20 : 500}
                                         minorTickInterval={10}
                                     />
                                     <Geometry startAngle={225}
@@ -467,7 +474,8 @@ function Guages() {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span>{waterPressure}</span>
+                                    <span style={{textAlign: "center"}}>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
+                                    <p className="unitSmall">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Water Pressure</h4>
                             </div>
@@ -475,14 +483,14 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
-                                <CircularGauge value={parseInt(rotationForwardPressure)}>
+                                <CircularGauge value={(metric) ? mainPump : (mainPump * 14.5038)}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={100}
-                                        tickInterval={20}
+                                        endValue={(metric) ? 400 : 5800}
+                                        tickInterval={(metric) ? 100 : 1000}
                                         minorTickInterval={10}
                                     />
                                     <Geometry startAngle={225} endAngle={315} />
@@ -496,7 +504,8 @@ function Guages() {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span>{rotationForwardPressure}</span>
+                                    <span>{(metric) ? mainPump : Math.floor(mainPump * 14.5038)}</span>
+                                    <p className="unitSmall">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Rotation Pressure</h4>
                             </div>
@@ -504,14 +513,14 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
-                                <CircularGauge value={parseInt(bitWeight)}>
+                                <CircularGauge value={(metric) ? bitWeight : (bitWeight * 2.20462)}>
                                     <CircularSize width={260} />
                                     <CircularScale
-                                        startValue={20}
-                                        endValue={200}
-                                        tickInterval={20}
+                                        startValue={0}
+                                        endValue={(metric) ? 200 : 400}
+                                        tickInterval={(metric) ? 20 : 40}
                                         minorTickInterval={10}
                                     />
                                     <Geometry startAngle={225} endAngle={315} />
@@ -525,7 +534,8 @@ function Guages() {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span>{bitWeight}</span>
+                                    <span>{(metric) ? bitWeight : Math.floor(bitWeight * 2.20462)}</span>
+                                    <p className="unitSmall">{(metric) ? 'Kgs' : "Lbs"}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Bit Weight</h4>
                             </div>
@@ -533,9 +543,9 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
-                                <CircularGauge value={parseInt(penetrationRate)}>
+                                <CircularGauge value={(metric) ? penetrationRate : (penetrationRate * 0.0393701)}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={20}
@@ -554,7 +564,8 @@ function Guages() {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span>{penetrationRate}</span>
+                                    <span>{(metric) ? penetrationRate : Math.floor(penetrationRate * 0.0393701)}</span>
+                                    <p className="unitSmall">{(metric) ? 'mm/m' : '"/m'}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Penetration Rate</h4>
                             </div>
@@ -562,15 +573,15 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
-                                <CircularGauge value={parseInt(holdback)}>
+                                <CircularGauge value={(metric) ? holdback : (holdback * 14.5038)}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={400}
-                                        tickInterval={50}
-                                        minorTickInterval={10}
+                                        endValue={(metric) ? 200 : 5000}
+                                        tickInterval={(metric) ? 50 : 1000}
+                                        minorTickInterval={(metric) ? 10 : 200}
 
                                     />
                                     <Geometry startAngle={225} endAngle={315} />
@@ -584,7 +595,8 @@ function Guages() {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span>{parseInt(holdback)}</span>
+                                    <span>{(metric) ? holdback : Math.floor(holdback * 14.5038)}</span>
+                                    <p className="unitSmall">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Holdback Pressure</h4>
                             </div>
@@ -592,15 +604,15 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
-                                <CircularGauge value={parseInt(pulldown)}>
+                                <CircularGauge value={(metric) ? holdback : (holdback * 14.5038)}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={400}
-                                        tickInterval={50}
-                                        minorTickInterval={10}
+                                        endValue={(metric) ? 200 : 2500}
+                                        tickInterval={(metric) ? 50 : 500}
+                                        minorTickInterval={(metric) ? 10 : 200}
                                     />
                                     <Geometry startAngle={225} endAngle={315} />
                                     <CircularValueIndicator
@@ -613,7 +625,8 @@ function Guages() {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span>{parseInt(pulldown)}</span>
+                                    <span>{(metric) ? pulldown : Math.floor(pulldown * 14.5038)}</span>
+                                    <p className="unitSmall">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">PullDown Pressure</h4>
                             </div>
@@ -621,7 +634,7 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
                                 <CircularGauge value={parseInt(rotationRpm)}>
                                     <CircularSize width={260} />
@@ -644,6 +657,7 @@ function Guages() {
 
                                 <div className="speed-value">
                                     <span>{parseInt(rotationRpm)}</span>
+                                    <p className="unitSmall">{rUnit}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Head RPM</h4>
                             </div>
@@ -651,15 +665,15 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
                                 <CircularGauge value={engineRpm}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={200}
-                                        tickInterval={20}
-                                        minorTickInterval={10}
+                                        endValue={30}
+                                        tickInterval={5}
+                                        minorTickInterval={1}
                                     />
                                     <Geometry startAngle={225}
                                         endAngle={315}
@@ -675,6 +689,7 @@ function Guages() {
 
                                 <div className="speed-value">
                                     <span>{engineRpm}</span>
+                                    <p className='unitSmall'>x100</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Engine RPM</h4>
                             </div>
@@ -682,15 +697,15 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
-                                <CircularGauge value={oilPressure}>
+                                <CircularGauge value={(metric) ? (oilPressure * 0.0689476) : oilPressure}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={200}
-                                        tickInterval={20}
-                                        minorTickInterval={10}
+                                        endValue={(metric) ? 10 : 90}
+                                        tickInterval={(metric) ? 1 : 10}
+                                        minorTickInterval={1}
                                     />
                                     <Geometry startAngle={225}
                                         endAngle={315}
@@ -706,6 +721,7 @@ function Guages() {
 
                                 <div className="speed-value">
                                     <span>{oilPressure}</span>
+                                    <p className='unitSmall'>{(metric) ? 'Bar' : 'Psi'}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Oil Pressure</h4>
                             </div>
@@ -713,14 +729,14 @@ function Guages() {
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
                                 <CircularGauge value={coolantTemp}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={200}
-                                        tickInterval={20}
+                                        endValue={(metric) ? 120 : 200}
+                                        tickInterval={(metric) ? 20 : 50}
                                         minorTickInterval={10}
                                     />
                                     <Geometry startAngle={225}
@@ -738,21 +754,21 @@ function Guages() {
                                 <div className="speed-value">
                                     <span>{coolantTemp}</span>
                                 </div>
-                                <h4 className="GaugeTitleSmall">Coolant Temp</h4>
+                                <h4 className='GaugeTitleSmall'>{(metric) ? 'Coolant Temp °C' : 'Coolant Temp °F'}</h4>
                             </div>
                         </div>
                     </div>
                     <div id="gauge-demo-small">
                         <div className="gauge-container-small">
-                            <img src={require("../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
+                            <img src={require("../../assets/340x340.png")} className="gaugeImgSmall" alt="Logo" title="Click to go to Homepage" />
                             <div className="center-section">
                                 <CircularGauge value={mainPump}>
                                     <CircularSize width={260} />
                                     <CircularScale
                                         startValue={0}
-                                        endValue={200}
+                                        endValue={(metric) ? 400 : 6000}
                                         tickInterval={20}
-                                        minorTickInterval={10}
+                                        minorTickInterval={50}
                                     />
                                     <Geometry startAngle={225}
                                         endAngle={315}
@@ -769,37 +785,8 @@ function Guages() {
                                 <div className="speed-value">
                                     <span>{mainPump}</span>
                                 </div>
+                                <p className='unitSmall'>{(metric) ? 'Bar' : 'Psi'}</p>
                                 <h4 className="GaugeTitleSmall">Main Pump Pressure</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <br></br>
-                    <div className="infoContainer">
-                        <div className="row">
-                            <div className="col-12 drillStats">
-                                <h6>Driller ID</h6>
-                                <h1>{driller}</h1>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12 col-sm-6 drillStats">
-                                <h6>Head Position</h6>
-                                <h1>{headPosition}</h1>
-                            </div>
-                            <div className="col-12 col-sm-6 drillStats">
-                                <h6>Hole Depth</h6>
-                                <h1>{holeDepth}</h1>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col-12 col-sm-6 drillStats">
-                                <h6>Driller ID</h6>
-                                <h1>{driller}</h1>
-                            </div>
-                            <div className="col-12 col-sm-6 drillStats">
-                                <h6>Engine Hours:</h6>
-                                <h1>{engineHours} Hrs</h1>
                             </div>
                         </div>
                     </div>
@@ -810,4 +797,4 @@ function Guages() {
     )
 }
 
-export default Guages;
+export default Rig21Live;
