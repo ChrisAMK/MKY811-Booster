@@ -76,50 +76,55 @@ function Rig21Live(props) {
 
     const getData = async () => {
 
-        const lastEntry = await API.getLastEntry();
-        console.log(lastEntry);
-        setEngineRpm(lastEntry[0].engineRPM || 0);
-        setOilPressure(lastEntry[0].oilPressure || 0);
-        setEngineHours(lastEntry[0].engineHours || 0);
-        setCoolantTemp(lastEntry[0].coolantTemp || 0);
-        setHeadPosition(lastEntry[0].headPosition || 0);
-        setHoleDepth(lastEntry[0].holeDepth || 0);
-        setRotationRpm(lastEntry[0].rotationRpm || 0);
-        setPenetrationRate(lastEntry[0].penetrationRate || 0);
-        setMastAngle(lastEntry[0].mastAngle || 0);
-        setDeckRoll(lastEntry[0].deckRoll || 0);
-        setDeckPitch(lastEntry[0].deckPitch || 0);
-        setMainPump(lastEntry[0].mainPumpPressure || 0);
-        setRotationReversePressure(lastEntry[0].rotationReversePressure || 0);
-        setRotationForwardPressure(lastEntry[0].rotationForwardPressure || 0);
-        setHoldback(lastEntry[0].holdBackPressure || 0);
-        setPulldown(lastEntry[0].pulldownPressure || 0);
-        setWaterPressure(lastEntry[0].waterPressure || 0);
-        setWinchUp(lastEntry[0].winchUpPressure || 0);
-        setWinchDown(lastEntry[0].winchDownPressure || 0);
-        setBitWeight(lastEntry[0].bitWeight || 0);
-        setDriller(lastEntry[0].driller || 0);
+        try {
+            const lastEntry = await API.getLastEntry();
+            console.log(lastEntry);
+            setEngineRpm(lastEntry[0].engineRPM || 0);
+            setOilPressure(lastEntry[0].oilPressure || 0);
+            setEngineHours(lastEntry[0].engineHours || 0);
+            setCoolantTemp(lastEntry[0].coolantTemp || 0);
+            setHeadPosition(lastEntry[0].headPosition || 0);
+            setHoleDepth(lastEntry[0].holeDepth || 0);
+            setRotationRpm(lastEntry[0].rotationRpm || 0);
+            setPenetrationRate(lastEntry[0].penetrationRate || 0);
+            setMastAngle(lastEntry[0].mastAngle || 0);
+            setDeckRoll(lastEntry[0].deckRoll || 0);
+            setDeckPitch(lastEntry[0].deckPitch || 0);
+            setMainPump(lastEntry[0].mainPumpPressure || 0);
+            setRotationReversePressure(lastEntry[0].rotationReversePressure || 0);
+            setRotationForwardPressure(lastEntry[0].rotationForwardPressure || 0);
+            setHoldback(lastEntry[0].holdBackPressure || 0);
+            setPulldown(lastEntry[0].pulldownPressure || 0);
+            setWaterPressure(lastEntry[0].waterPressure || 0);
+            setWinchUp(lastEntry[0].winchUpPressure || 0);
+            setWinchDown(lastEntry[0].winchDownPressure || 0);
+            setBitWeight(lastEntry[0].bitWeight || 0);
+            setDriller(lastEntry[0].driller || 0);
 
-        //  
+            //  
 
-        /// BOOLEANS
-        if (lastEntry[0].coolantLevelSensor === false) {
-            setCoolantLevel("red");
-        } else {
-            setCoolantLevel("green");
+            /// BOOLEANS
+            if (lastEntry[0].coolantLevelSensor === false) {
+                setCoolantLevel("red");
+            } else {
+                setCoolantLevel("green");
+            }
+
+            if (lastEntry[0].footClampPressureSwitch === false) {
+                setFootClamp("red");
+            } else {
+                setFootClamp("green");
+            }
+
+            if (lastEntry[0].headBackRackProxyStatus === false) {
+                setHeadBackRack("red");
+            } else {
+                setHeadBackRack("green");
+            }
+        } catch (error) {
+            console.log(error)
         }
-
-        if (lastEntry[0].footClampPressureSwitch === false) {
-            setFootClamp("red");
-        } else {
-            setFootClamp("green");
-        }
-
-        if (lastEntry[0].headBackRackProxyStatus === false) {
-            setHeadBackRack("red");
-        } else {
-            setHeadBackRack("green");
-        }
+        
     }
 
     useEffect(() => {
