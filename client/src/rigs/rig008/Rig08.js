@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import Rig21Live from './Rig08Live';
-import Rig21Alerts from './Rig08Alerts';
-import Rig21Statistics from './Rig08Statistics';
+import Rig08Live from './Rig08Live';
+import Rig08Alerts from './Rig08Alerts';
+import Rig08Statistics from './Rig08Statistics';
 import Button from '@material-ui/core/Button';
 
 function Rig21() {
@@ -16,17 +16,17 @@ function Rig21() {
         const toRender = () => {
             switch (page) {
                 case "":
-                    return <Rig21Live handlePageChange={handlePageChange}/>
+                    return <Rig08Live/>
                 case "Alerts":
-                    return <Rig21Alerts handlePageChange={handlePageChange}/>
+                    return <Rig08Alerts/>
                 case "Statistics":
-                    return <Rig21Statistics handlePageChange={handlePageChange}/>
+                    return <Rig08Statistics/>
                 case "Live":
-                    return <Rig21Live handlePageChange={handlePageChange}/>
+                    return <Rig08Live/>
                 default:
-                    return <Rig21Live handlePageChange={handlePageChange}/>
+                    return <Rig08Live/>
             }
-        }  
+        }
 
     return(
         <React.Fragment>

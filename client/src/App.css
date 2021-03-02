@@ -54,6 +54,12 @@ body {
     z-index: 900;
 }
 
+.Compressor {
+    margin-left: 85px;
+    margin-right: 0px;
+    margin-top: 45px;
+}
+
 .mainPumpScale {
     position: absolute;
     margin-top: -70px;
@@ -112,7 +118,7 @@ body {
 
 .backingPic {
 
-    background-image: url("./assets/IMG_6428.JPG");
+    /* background-image: url("./assets/IMG_6428.JPG"); */
     background-size: fill
 }
 
