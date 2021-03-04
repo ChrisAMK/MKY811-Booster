@@ -1,15 +1,10 @@
 import axios from "axios";
 
 export default {
-    // Returns the result of a get request to the Google Books API
-    getLastEntry: (query) => {
-        return axios.get("/api/rig021/last")
+    // Returns the result of a get request to the last entry of the Rig
+    getLastEntry: (rig) => {
+        return axios.get(`/api/${rig}/last`)
         .then(result => result.data);
-    },
-
-    // Performs a get request to the server to get all the saved books in the database
-    getBoosterInfo: () => {
-        return axios.get("/api/booster").then(result => result.data);
     },
 
     setInfo: (hours, temp) => {

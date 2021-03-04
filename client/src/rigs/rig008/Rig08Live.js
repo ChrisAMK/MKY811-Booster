@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React, { useState, PureComponent, useEffect, Component } from "react";
+import React, { useState } from "react";
 // eslint-disable-next-line
 
 import Rig08LiveCompressor from './Rig08LiveCompressor';
@@ -13,10 +13,6 @@ function Rig21Live(props) {
     // We use page state to determine which sub-component is to be rendered inside the manager page
     const [page, setPage] = useState("");
 
-    // Manager function navigation function
-    const handlePageChange = (navPage) => {
-        setPage(navPage)
-    }
 
     const toRender = () => {
         switch (page) {

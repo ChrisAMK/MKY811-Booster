@@ -34,12 +34,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Rigs = {
-  rig21: {
-
-  }
-}
-
 // This function is rendered when the user enters an incorrect URL
 function Landing() {
   const classes = useStyles();

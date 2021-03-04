@@ -19,7 +19,7 @@ module.exports = function(server) {
   }),
 
   server.get("/api/rig08/last", (req, res) => {
-    db.MKY021.findAll({
+    db.MKY008.findAll({
       limit: 1,
       where: {
        // Future Conditions 
@@ -29,5 +29,7 @@ module.exports = function(server) {
     .then(result => res.json(result))
     .catch(error => console.log(error))
   })
+
+
   
 };

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Rig08Live from './Rig08Live';
 import Rig08Alerts from './Rig08Alerts';
 import Rig08Statistics from './Rig08Statistics';
@@ -7,11 +7,6 @@ import Button from '@material-ui/core/Button';
 function Rig21() {
         // We use page state to determine which sub-component is to be rendered inside the manager page
         const [page, setPage] = useState("");
-
-        // Manager function navigation function
-        const handlePageChange = (navPage) => {
-            setPage(navPage)
-        }
     
         const toRender = () => {
             switch (page) {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Rig8Live from './Rig21Live';
 import Rig8Alerts from './Rig21Alerts';
 import Rig8Statistics from './Rig21Statistics';

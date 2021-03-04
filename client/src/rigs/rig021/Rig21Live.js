@@ -29,27 +29,15 @@ function Rig21Live(props) {
     const [holeDepth, setHoleDepth] = useState(0);
     const [rotationRpm, setRotationRpm] = useState(0);
     const [penetrationRate, setPenetrationRate] = useState(0);
-    const [mastAngle, setMastAngle] = useState(0);
-    const [deckRoll, setDeckRoll] = useState(0);
-    const [deckPitch, setDeckPitch] = useState(0);
     const [headBackRack, setHeadBackRack] = useState("");
     const [footClamp, setFootClamp] = useState("");
     const [coolantLevel, setCoolantLevel] = useState("");
-    const [rotationReversePressure, setRotationReversePressure] = useState(0);
-    const [rotationForwardPressure, setRotationForwardPressure] = useState(0);
     const [holdback, setHoldback] = useState(0);
     const [pulldown, setPulldown] = useState(0);
     const [waterPressure, setWaterPressure] = useState(0);
     const [mainPump, setMainPump] = useState(0);
-    const [winchDown, setWinchDown] = useState(0);
-    const [winchUp, setWinchUp] = useState(0);
     const [bitWeight, setBitWeight] = useState(0);
     const [driller, setDriller] = useState(0);
-    const [count, setCount] = useState(0);
-    const [pUnit, setpUnit] = useState("Bar");
-    const [rUnit, setrUnit] = useState("Rpm");
-    const [mUnit, setmUnit] = useState("mm/s");
-    const [wUnit, setwUnit] = useState('Kgs');
     const [metric, setMetric] = useState(true);
 
     const handleChange = (event) => {
@@ -77,7 +65,7 @@ function Rig21Live(props) {
     const getData = async () => {
 
         try {
-            const lastEntry = await API.getLastEntry();
+            const lastEntry = await API.getLastEntry("rig021");
             console.log(lastEntry);
             setEngineRpm(lastEntry[0].engineRPM || 0);
             setOilPressure(lastEntry[0].oilPressure || 0);
@@ -87,21 +75,12 @@ function Rig21Live(props) {
             setHoleDepth(lastEntry[0].holeDepth || 0);
             setRotationRpm(lastEntry[0].rotationRpm || 0);
             setPenetrationRate(lastEntry[0].penetrationRate || 0);
-            setMastAngle(lastEntry[0].mastAngle || 0);
-            setDeckRoll(lastEntry[0].deckRoll || 0);
-            setDeckPitch(lastEntry[0].deckPitch || 0);
             setMainPump(lastEntry[0].mainPumpPressure || 0);
-            setRotationReversePressure(lastEntry[0].rotationReversePressure || 0);
-            setRotationForwardPressure(lastEntry[0].rotationForwardPressure || 0);
             setHoldback(lastEntry[0].holdBackPressure || 0);
             setPulldown(lastEntry[0].pulldownPressure || 0);
             setWaterPressure(lastEntry[0].waterPressure || 0);
-            setWinchUp(lastEntry[0].winchUpPressure || 0);
-            setWinchDown(lastEntry[0].winchDownPressure || 0);
             setBitWeight(lastEntry[0].bitWeight || 0);
             setDriller(lastEntry[0].driller || 0);
-
-            //  
 
             /// BOOLEANS
             if (lastEntry[0].coolantLevelSensor === false) {
@@ -408,7 +387,7 @@ function Rig21Live(props) {
 
                                 <div className="speed-value">
                                     <span>{parseInt(rotationRpm)}</span>
-                                    <p className="unit">{rUnit}</p>
+                                    <p className="unit">Rpm</p>
                                 </div>
                                 <h4 className="GaugeTitle">Head RPM</h4>
                             </div>
@@ -662,7 +641,7 @@ function Rig21Live(props) {
 
                                 <div className="speed-value">
                                     <span>{parseInt(rotationRpm)}</span>
-                                    <p className="unitSmall">{rUnit}</p>
+                                    <p className="unitSmall">Rpm</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Head RPM</h4>
                             </div>
