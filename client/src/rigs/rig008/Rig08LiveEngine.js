@@ -56,7 +56,7 @@ function Rig08LiveEngine(props) {
     const getData = async () => {
 
         try {
-            const lastEntry = await API.getLastEntry();
+            const lastEntry = await API.getLastEntry("rig08");
             setEngineRpm(lastEntry[0].engineRPM || 0);
             setOilPressure(lastEntry[0].oilPressure || 0);
             setEngineHours(lastEntry[0].engineHours || 0);

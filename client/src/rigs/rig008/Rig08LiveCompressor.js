@@ -50,7 +50,7 @@ function Rig21LiveCompressor(props) {
     const getData = async () => {
 
         try {
-            const lastEntry = await API.getLastEntry();
+            const lastEntry = await API.getLastEntry("rig08");
             setDischargePressure(lastEntry[0].dischargePressure || 0);
             setDownholeAir(lastEntry[0].downholeAir || 0);
             setInterstagePressure(lastEntry[0].interstagePressure || 0);
