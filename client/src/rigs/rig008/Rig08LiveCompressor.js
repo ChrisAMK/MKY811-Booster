@@ -22,7 +22,7 @@ function Rig21LiveCompressor(props) {
     const [mastAngle, setMastAngle] = useState(0);
     const [deckRoll, setDeckRoll] = useState(0);
     const [deckPitch, setDeckPitch] = useState(0);
-    const [metric, setMetric] = useState(0);
+    const [metric, setMetric] = useState(false);
 
 
     const handleChange = () => {
@@ -51,12 +51,13 @@ function Rig21LiveCompressor(props) {
 
         try {
             const lastEntry = await API.getLastEntry("rig08");
-            setDischargePressure(lastEntry[0].dischargePressure || 0);
-            setDownholeAir(lastEntry[0].downholeAir || 0);
-            setInterstagePressure(lastEntry[0].interstagePressure || 0);
-            setMastAngle(lastEntry[0].mastAngle || 0);
-            setDeckRoll(lastEntry[0].deckRoll || 0);
-            setDeckPitch(lastEntry[0].deckPitch || 0);
+            console.log(lastEntry)
+            setDischargePressure(lastEntry[0].dischargePressure     || 0);
+            setDownholeAir(lastEntry[0].downholeAir                 || 0);
+            setInterstagePressure(lastEntry[0].interstagePressure   || 0);
+            setMastAngle(lastEntry[0].mastAngle                     || 0);
+            setDeckRoll(lastEntry[0].deckRoll                       || 0);
+            setDeckPitch(lastEntry[0].deckPitch                     || 0);
 
         } catch (error) {
             console.log(error)
@@ -135,7 +136,7 @@ function Rig21LiveCompressor(props) {
                                 <h4 className="GaugeTitle">Downhole Pressure</h4>
                                 <FormGroup className="toggleScale Compressor">
                                     <FormControlLabel
-                                        control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
+                                        control={<ScaleSwitch checked={metric} onChange={handleChange}/>}
                                         label={(metric) ? 'Metric' : 'Imperial'}
                                         labelPlacement="bottom"
                                     />
@@ -188,7 +189,7 @@ function Rig21LiveCompressor(props) {
                     <div className="mobileScale">
                         <FormGroup className="toggleScale mobileScale">
                             <FormControlLabel
-                                control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
+                                control={<ScaleSwitch checked={metric} onChange={handleChange} />}
                                 label={(metric) ? 'Metric' : 'Imperial'}
                                 labelPlacement="bottom"
                             />

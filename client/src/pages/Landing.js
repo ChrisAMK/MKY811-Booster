@@ -55,9 +55,12 @@ function Landing() {
                 <Typography gutterBottom variant="h5" component="h2">
                   Rig 21
                 </Typography>
+                <hr></hr>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Diamond<hr></hr>
-                  Currently stationed in Newman
+                  Diamond
+                  </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                Currently stationed in Newman
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -90,8 +93,11 @@ function Landing() {
                 <Typography gutterBottom variant="h5" component="h2">
                   Rig 8
                 </Typography>
+                <hr></hr>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  RC<hr></hr>
+                  RC
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
                   Currently stationed in Karratha
                 </Typography>
               </CardContent>

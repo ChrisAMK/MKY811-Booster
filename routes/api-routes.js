@@ -2,9 +2,6 @@
 const db = require("../models");
 
 module.exports = function(server) {
-  // Using the passport.authenticate middleware with our local strategy.
-  // If the user has valid login credentials, send them to the members page.
-  // Otherwise the user will be sent an error
 
   server.get("/api/rig021/last", (req, res) => {
     db.MKY021.findAll({
@@ -19,7 +16,7 @@ module.exports = function(server) {
   }),
 
   server.get("/api/rig08/last", (req, res) => {
-    db.MKY008.findAll({
+    db.MKY08.findAll({
       limit: 1,
       where: {
        // Future Conditions 
