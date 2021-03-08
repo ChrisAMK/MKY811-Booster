@@ -53,29 +53,31 @@ function Rig08LiveEngine(props) {
         track: {},
     })(Switch);
 
-    const getData = async () => {
-
-        try {
-            const lastEntry = await API.getLastEntry("rig08");
-            setEngineRpm(lastEntry[0].engineRPM || 0);
-            setOilPressure(lastEntry[0].oilPressure || 0);
-            setEngineHours(lastEntry[0].engineHours || 0);
-            setCoolantTemp(lastEntry[0].coolantTemp || 0);
-            setMainPump(lastEntry[0].mainPumpPressure || 0);
-            setEngineOilTemp(lastEntry[0].engineOilTemp || 0);
-            setIntakeTemp(lastEntry[0].intakeTemp || 0);
-            setEngineTorque(lastEntry[0].engineTorque || 0);
-            setEngineIntercoolerTemp(lastEntry[0].engineIntercoolerTemp || 0);
-            setTurboSpeed(lastEntry[0].turboSpeed || 0);
-            setEngineOilLevel(lastEntry[0].engineOilLevel || 0);
-
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-
     useEffect(() => {
+
+        const getData = async () => {
+            if (props.live === true) {
+                try {
+                    const lastEntry = await API.getLastEntry("rig08");
+                    setEngineRpm(parseInt(lastEntry[0].engineRPM) || 0);
+                    setOilPressure(parseInt(lastEntry[0].oilPressure) || 0);
+                    setEngineHours(parseInt(lastEntry[0].engineHours) || 0);
+                    setCoolantTemp(parseInt(lastEntry[0].coolantTemp) || 0);
+                    setMainPump(parseInt(lastEntry[0].mainPumpPressure) || 0);
+                    setEngineOilTemp(parseInt(lastEntry[0].engineOilTemp) || 0);
+                    setIntakeTemp(parseInt(lastEntry[0].intakeTemp) || 0);
+                    setEngineTorque(parseInt(lastEntry[0].engineTorque) || 0);
+                    setEngineIntercoolerTemp(parseInt(lastEntry[0].engineIntercoolerTemp) || 0);
+                    setTurboSpeed(parseInt(lastEntry[0].turboSpeed) || 0);
+                    setEngineOilLevel(parseInt(lastEntry[0].engineOilLevel) || 0);
+        
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                console.log("not live")
+            }
+        }
 
         let timer = setInterval(() => {
             getData()
@@ -85,7 +87,7 @@ function Rig08LiveEngine(props) {
             clearInterval(timer)
         }
 
-    }, [])
+    }, [props.live])
 
 
     return (

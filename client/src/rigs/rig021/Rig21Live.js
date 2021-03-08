@@ -67,20 +67,20 @@ function Rig21Live(props) {
         try {
             const lastEntry = await API.getLastEntry("rig021");
             console.log(lastEntry);
-            setEngineRpm(lastEntry[0].engineRPM || 0);
-            setOilPressure(lastEntry[0].oilPressure || 0);
-            setEngineHours(lastEntry[0].engineHours || 0);
-            setCoolantTemp(lastEntry[0].coolantTemp || 0);
-            setHeadPosition(lastEntry[0].headPosition || 0);
-            setHoleDepth(lastEntry[0].holeDepth || 0);
-            setRotationRpm(lastEntry[0].rotationRpm || 0);
-            setPenetrationRate(lastEntry[0].penetrationRate || 0);
-            setMainPump(lastEntry[0].mainPumpPressure || 0);
-            setHoldback(lastEntry[0].holdBackPressure || 0);
-            setPulldown(lastEntry[0].pulldownPressure || 0);
-            setWaterPressure(lastEntry[0].waterPressure || 0);
-            setBitWeight(lastEntry[0].bitWeight || 0);
-            setDriller(lastEntry[0].driller || 0);
+            setEngineRpm(parseInt(lastEntry[0].engineRPM) || 0);
+            setOilPressure(parseInt(lastEntry[0].oilPressure) || 0);
+            setEngineHours(parseInt(lastEntry[0].engineHours) || 0);
+            setCoolantTemp(parseInt(lastEntry[0].coolantTemp) || 0);
+            setHeadPosition(parseInt(lastEntry[0].headPosition) || 0);
+            setHoleDepth(parseInt(lastEntry[0].holeDepth) || 0);
+            setRotationRpm(parseInt(lastEntry[0].rotationRpm) || 0);
+            setPenetrationRate(parseInt(lastEntry[0].penetrationRate) || 0);
+            setMainPump(parseInt(lastEntry[0].mainPumpPressure) || 0);
+            setHoldback(parseInt(lastEntry[0].holdBackPressure) || 0);
+            setPulldown(parseInt(lastEntry[0].pulldownPressure) || 0);
+            setWaterPressure(parseInt(lastEntry[0].waterPressure) || 0);
+            setBitWeight(parseInt(lastEntry[0].bitWeight) || 0);
+            setDriller(parseInt(lastEntry[0].driller) || 0);
 
             /// BOOLEANS
             if (lastEntry[0].coolantLevelSensor === false) {

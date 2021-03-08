@@ -62,48 +62,86 @@ function Rig08LiveDrilling(props) {
         },
         checked: {},
         track: {},
-    })(Switch);
-
-    const getData = async () => {
-
-        try {
-            const lastEntry = await API.getLastEntry("rig08");
-            console.log(lastEntry);
-            setEngineRpm(lastEntry[0].engineRPM             || 0);
-            setOilPressure(lastEntry[0].oilPressure         || 0);
-            setEngineHours(lastEntry[0].engineHours         || 0);
-            setCoolantTemp(lastEntry[0].coolantTemp         || 0);
-            setHeadPosition(lastEntry[0].headPosition       || 0);
-            setHoleDepth(lastEntry[0].holeDepth             || 0);
-            setRotationRpm(lastEntry[0].rotationRpm         || 0);
-            setPenetrationRate(lastEntry[0].penetrationRate || 0);
-            setDownholeAir(lastEntry[0].downholeAir         || 0);
-            setMainPump(lastEntry[0].mainPumpPressure       || 0);
-            setHoldback(lastEntry[0].holdBackPressure       || 0);
-            setPulldown(lastEntry[0].pulldownPressure       || 0);
-            setWaterPressure(lastEntry[0].waterPressure     || 0);
-            setBitWeight(lastEntry[0].bitWeight             || 0);
-            setDriller(lastEntry[0].driller                 || 0);
-
-            /// BOOLEANS
-            if (lastEntry[0].rodloaderPosition === false) {
-                setRodloaderPosition("red");
-            } else {
-                setRodloaderPosition("green");
-            }
-
-            if (lastEntry[0].headRef === false) {
-                setHeadRef("red");
-            } else {
-                setHeadRef("green");
-            }
-        } catch (error) {
-            console.log(error)
-        }
-        
-    }
+    })(Switch);    
 
     useEffect(() => {
+
+        // const searchTime = async () => {
+
+        // };
+
+        const getData = async () => {
+            if (props.live === true) {
+                try {
+                    const lastEntry = await API.getLastEntry("rig08");
+                    setEngineRpm(parseInt(lastEntry[0].engineRPM)             || 0);
+                    setOilPressure(parseInt(lastEntry[0].oilPressure)         || 0);
+                    setEngineHours(parseInt(lastEntry[0].engineHours)         || 0);
+                    setCoolantTemp(parseInt(lastEntry[0].coolantTemp)         || 0);
+                    setHeadPosition(parseInt(lastEntry[0].headPosition)       || 0);
+                    setHoleDepth(parseInt(lastEntry[0].holeDepth)             || 0);
+                    setRotationRpm(parseInt(lastEntry[0].rotationRpm)         || 0);
+                    setPenetrationRate(parseInt(lastEntry[0].penetrationRate) || 0);
+                    setDownholeAir(parseInt(lastEntry[0].DownholeAirPressure)         || 0);
+                    setMainPump(parseInt(lastEntry[0].mainPumpPressure)       || 0);
+                    setHoldback(parseInt(lastEntry[0].holdBackPressure)       || 0);
+                    setPulldown(parseInt(lastEntry[0].pulldownPressure)       || 0);
+                    setWaterPressure(parseInt(lastEntry[0].waterPressure)     || 0);
+                    setBitWeight(parseInt(lastEntry[0].bitWeight)             || 0);
+                    setDriller(lastEntry[0].driller                 || 0);
+        
+                    /// BOOLEANS
+                    if (lastEntry[0].rodloaderPosition === false) {
+                        setRodloaderPosition("red");
+                    } else {
+                        setRodloaderPosition("green");
+                    }
+        
+                    if (lastEntry[0].headRef === false) {
+                        setHeadRef("red");
+                    } else {
+                        setHeadRef("green");
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                try {
+                    const searchEntry = await API.getExactTime("rig08", props.time.year, props.time.month, props.time.day, props.time.hour, props.time.minute, props.time.second);
+                    console.log(searchEntry)
+                    setEngineRpm(parseInt(searchEntry[0].engineRPM)             || 0);
+                    setOilPressure(parseInt(searchEntry[0].oilPressure)         || 0);
+                    setEngineHours(parseInt(searchEntry[0].engineHours)         || 0);
+                    setCoolantTemp(parseInt(searchEntry[0].coolantTemp)         || 0);
+                    setHeadPosition(parseInt(searchEntry[0].headPosition)       || 0);
+                    setHoleDepth(parseInt(searchEntry[0].holeDepth)             || 0);
+                    setRotationRpm(parseInt(searchEntry[0].rotationRpm)         || 0);
+                    setPenetrationRate(parseInt(searchEntry[0].penetrationRate) || 0);
+                    setDownholeAir(parseInt(searchEntry[0].DownholeAirPressure)         || 0);
+                    setMainPump(parseInt(searchEntry[0].mainPumpPressure)       || 0);
+                    setHoldback(parseInt(searchEntry[0].holdBackPressure)       || 0);
+                    setPulldown(parseInt(searchEntry[0].pulldownPressure)       || 0);
+                    setWaterPressure(parseInt(searchEntry[0].waterPressure)     || 0);
+                    setBitWeight(parseInt(searchEntry[0].bitWeight)             || 0);
+                    setDriller(searchEntry[0].driller                 || 0);
+                    
+                    /// BOOLEANS
+                    if (searchEntry[0].rodloaderPosition === false) {
+                        setRodloaderPosition("red");
+                    } else {
+                        setRodloaderPosition("green");
+                    }
+        
+                    if (searchEntry[0].headRef === false) {
+                        setHeadRef("red");
+                    } else {
+                        setHeadRef("green");
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        }
 
         let timer = setInterval(() => {
             getData()
@@ -113,7 +151,7 @@ function Rig08LiveDrilling(props) {
             clearInterval(timer)
         }
 
-    }, [])
+    }, [props.live, props.time])
 
     return (
         <React.Fragment>
@@ -431,8 +469,6 @@ function Rig08LiveDrilling(props) {
                 </div>
             </div>
         </div>
-            <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-                    <p>dddd</p>
                 </React.Fragment>
                 :
                 // Mobile

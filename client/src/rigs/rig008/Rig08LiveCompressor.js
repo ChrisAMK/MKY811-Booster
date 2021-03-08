@@ -14,7 +14,7 @@ import CircularGauge, { Geometry, Scale as CircularScale, Size as CircularSize, 
 
 const color = '#f05b41';
 
-function Rig21LiveCompressor(props) {
+function Rig8LiveCompressor(props) {
 
     const [dischargePressure, setDischargePressure] = useState(0);
     const [downholeAir, setDownholeAir] = useState(0);
@@ -47,26 +47,28 @@ function Rig21LiveCompressor(props) {
         track: {},
     })(Switch);
 
-    const getData = async () => {
-
-        try {
-            const lastEntry = await API.getLastEntry("rig08");
-            console.log(lastEntry)
-            setDischargePressure(lastEntry[0].dischargePressure     || 0);
-            setDownholeAir(lastEntry[0].downholeAir                 || 0);
-            setInterstagePressure(lastEntry[0].interstagePressure   || 0);
-            setMastAngle(lastEntry[0].mastAngle                     || 0);
-            setDeckRoll(lastEntry[0].deckRoll                       || 0);
-            setDeckPitch(lastEntry[0].deckPitch                     || 0);
-
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-
     useEffect(() => {
 
+        const getData = async () => {
+            if (props.live === true) {
+                try {
+                    const lastEntry = await API.getLastEntry("rig08");
+                    console.log(lastEntry)
+                    setDischargePressure(parseInt(lastEntry[0].compressorDischargeTemperature)      || 0);
+                    setDownholeAir(parseInt(lastEntry[0].compressorLinePressure)                    || 0);
+                    setInterstagePressure(parseInt(lastEntry[0].compressorInterstagePressure)       || 0);
+                    setMastAngle(parseInt(lastEntry[0].mastAngle)                                   || 0);
+                    setDeckRoll(parseInt(lastEntry[0].deckRoll)                                     || 0);
+                    setDeckPitch(parseInt(lastEntry[0].deckPitch)                                   || 0);
+        
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                console.log("not live")
+            }
+        }
+    
         let timer = setInterval(() => {
             getData()
         }, 1000);
@@ -75,7 +77,7 @@ function Rig21LiveCompressor(props) {
             clearInterval(timer)
         }
 
-    }, [])
+    }, [props.live])
 
     return (
         <React.Fragment>
@@ -292,4 +294,4 @@ function Rig21LiveCompressor(props) {
     )
 }
 
-export default Rig21LiveCompressor;
+export default Rig8LiveCompressor;

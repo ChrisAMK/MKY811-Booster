@@ -7,8 +7,24 @@ export default {
         .then(result => result.data);
     },
 
+    getExactTime: (rig, year, month, day, hour, minute, second) => {
+        return axios.post(`/api/${rig}/time`, {
+            year: year,
+            month: month,
+            day: day,
+            hour: hour,
+            minute: minute,
+            second: second
+        })
+        .then(result => result.data)
+    },
+
+    downloadInfo: (rig) => {
+        return axios.get(`/api/${rig}/all`)
+        .then(result => result.data);
+    },
+
     setInfo: (hours, temp) => {
-        
         return axios.post("/api/booster", {
             hours: hours,
             temp: temp
