@@ -14,6 +14,7 @@ import Indicator from '../../components/Indicator';
 import EngineRpm from '../../components/engineRpm';
 import OilPressure from '../../components/OilPressure';
 import CoolantTemp from '../../components/CoolantTemp';
+import Typography from '@material-ui/core/Typography';
 
 import Bulb from 'react-bulb';
 
@@ -28,7 +29,6 @@ function Rig08LiveDrilling(props) {
     const [mainPump, setMainPump] = useState(0);
     const [penetrationRate, setPenetrationRate] = useState(0);
     const [coolantTemp, setCoolantTemp] = useState(0);
-
     const [headPosition, setHeadPosition] = useState(0);
     const [holeDepth, setHoleDepth] = useState(0);
     const [driller, setDriller] = useState(0);
@@ -39,15 +39,16 @@ function Rig08LiveDrilling(props) {
     const [rodloaderPosition, setRodloaderPosition] = useState("");
     const [headRef, setHeadRef] = useState("");
     const [engineHours, setEngineHours] = useState(0);
-    
+    const [year, setYear] = useState("");
+    const [month, setMonth] = useState("");
+    const [day, setDay] = useState("");
+    const [hour, setHour] = useState("");
+    const [minute, setMinute] = useState("");
+    const [second, setSecond] = useState("");
     const [metric, setMetric] = useState(true);
 
-    const handleChange = (event) => {
-        if (metric) {
-            setMetric(false);
-        } else {
-            setMetric(true);
-        }
+    const toggleMetric = () => {
+        metric ? setMetric(false) : setMetric(true);
     };
 
     const ScaleSwitch = withStyles({
@@ -62,41 +63,39 @@ function Rig08LiveDrilling(props) {
         },
         checked: {},
         track: {},
-    })(Switch);    
+    })(Switch);
 
     useEffect(() => {
-
-        // const searchTime = async () => {
-
-        // };
+        let unmounted = false;
 
         const getData = async () => {
-            if (props.live === true) {
+            if (props.live === true && !(unmounted)) {
                 try {
-                    const lastEntry = await API.getLastEntry("rig08");
-                    setEngineRpm(parseInt(lastEntry[0].engineRPM)             || 0);
-                    setOilPressure(parseInt(lastEntry[0].oilPressure)         || 0);
-                    setEngineHours(parseInt(lastEntry[0].engineHours)         || 0);
-                    setCoolantTemp(parseInt(lastEntry[0].coolantTemp)         || 0);
-                    setHeadPosition(parseInt(lastEntry[0].headPosition)       || 0);
-                    setHoleDepth(parseInt(lastEntry[0].holeDepth)             || 0);
-                    setRotationRpm(parseInt(lastEntry[0].rotationRpm)         || 0);
+                    const lastEntry = await API.getLastEntry("rig08", "drilling");
+                    console.log(lastEntry)
+                    setEngineRpm(parseInt(lastEntry[0].engineRPM) || 0);
+                    setOilPressure(parseInt(lastEntry[0].oilPressure) || 0);
+                    setEngineHours(parseInt(lastEntry[0].engineHours) || 0);
+                    setCoolantTemp(parseInt(lastEntry[0].coolantTemp) || 0);
+                    setHeadPosition(parseInt(lastEntry[0].headPosition) || 0);
+                    setHoleDepth(parseInt(lastEntry[0].holeDepth) || 0);
+                    setRotationRpm(parseInt(lastEntry[0].rotationRpm) || 0);
                     setPenetrationRate(parseInt(lastEntry[0].penetrationRate) || 0);
-                    setDownholeAir(parseInt(lastEntry[0].DownholeAirPressure)         || 0);
-                    setMainPump(parseInt(lastEntry[0].mainPumpPressure)       || 0);
-                    setHoldback(parseInt(lastEntry[0].holdBackPressure)       || 0);
-                    setPulldown(parseInt(lastEntry[0].pulldownPressure)       || 0);
-                    setWaterPressure(parseInt(lastEntry[0].waterPressure)     || 0);
-                    setBitWeight(parseInt(lastEntry[0].bitWeight)             || 0);
-                    setDriller(lastEntry[0].driller                 || 0);
-        
+                    setDownholeAir(parseInt(lastEntry[0].DownholeAirPressure) || 0);
+                    setMainPump(parseInt(lastEntry[0].mainPumpPressure) || 0);
+                    setHoldback(parseInt(lastEntry[0].holdBackPressure) || 0);
+                    setPulldown(parseInt(lastEntry[0].pulldownPressure) || 0);
+                    setWaterPressure(parseInt(lastEntry[0].waterPressure) || 0);
+                    setBitWeight(parseInt(lastEntry[0].bitWeight) || 0);
+                    setDriller(lastEntry[0].driller || 0);
+
                     /// BOOLEANS
                     if (lastEntry[0].rodloaderPosition === false) {
                         setRodloaderPosition("red");
                     } else {
                         setRodloaderPosition("green");
                     }
-        
+
                     if (lastEntry[0].headRef === false) {
                         setHeadRef("red");
                     } else {
@@ -105,33 +104,39 @@ function Rig08LiveDrilling(props) {
                 } catch (error) {
                     console.log(error)
                 }
-            } else {
+            } else if(!(unmounted)) {
                 try {
-                    const searchEntry = await API.getExactTime("rig08", props.time.year, props.time.month, props.time.day, props.time.hour, props.time.minute, props.time.second);
+                    const searchEntry = await API.getExactTime("rig08", "drilling", props.time.year, props.time.month, props.time.day, props.time.hour, props.time.minute, props.time.second);
                     console.log(searchEntry)
-                    setEngineRpm(parseInt(searchEntry[0].engineRPM)             || 0);
-                    setOilPressure(parseInt(searchEntry[0].oilPressure)         || 0);
-                    setEngineHours(parseInt(searchEntry[0].engineHours)         || 0);
-                    setCoolantTemp(parseInt(searchEntry[0].coolantTemp)         || 0);
-                    setHeadPosition(parseInt(searchEntry[0].headPosition)       || 0);
-                    setHoleDepth(parseInt(searchEntry[0].holeDepth)             || 0);
-                    setRotationRpm(parseInt(searchEntry[0].rotationRpm)         || 0);
+                    setEngineRpm(parseInt(searchEntry[0].engineRPM) || 0);
+                    setOilPressure(parseInt(searchEntry[0].oilPressure) || 0);
+                    setEngineHours(parseInt(searchEntry[0].engineHours) || 0);
+                    setCoolantTemp(parseInt(searchEntry[0].coolantTemp) || 0);
+                    setHeadPosition(parseInt(searchEntry[0].headPosition) || 0);
+                    setHoleDepth(parseInt(searchEntry[0].holeDepth) || 0);
+                    setRotationRpm(parseInt(searchEntry[0].rotationRpm) || 0);
                     setPenetrationRate(parseInt(searchEntry[0].penetrationRate) || 0);
-                    setDownholeAir(parseInt(searchEntry[0].DownholeAirPressure)         || 0);
-                    setMainPump(parseInt(searchEntry[0].mainPumpPressure)       || 0);
-                    setHoldback(parseInt(searchEntry[0].holdBackPressure)       || 0);
-                    setPulldown(parseInt(searchEntry[0].pulldownPressure)       || 0);
-                    setWaterPressure(parseInt(searchEntry[0].waterPressure)     || 0);
-                    setBitWeight(parseInt(searchEntry[0].bitWeight)             || 0);
-                    setDriller(searchEntry[0].driller                 || 0);
-                    
+                    setDownholeAir(parseInt(searchEntry[0].DownholeAirPressure) || 0);
+                    setMainPump(parseInt(searchEntry[0].mainPumpPressure) || 0);
+                    setHoldback(parseInt(searchEntry[0].holdBackPressure) || 0);
+                    setPulldown(parseInt(searchEntry[0].pulldownPressure) || 0);
+                    setWaterPressure(parseInt(searchEntry[0].waterPressure) || 0);
+                    setBitWeight(parseInt(searchEntry[0].bitWeight) || 0);
+                    setDriller(searchEntry[0].driller || 0);
+                    setYear(searchEntry[0].year || 0);
+                    setMonth(searchEntry[0].month || 0);
+                    setDay(searchEntry[0].date || 0);
+                    setHour(searchEntry[0].hour || 0);
+                    setMinute(searchEntry[0].minute || 0);
+                    setSecond(searchEntry[0].second || 0);
+
                     /// BOOLEANS
                     if (searchEntry[0].rodloaderPosition === false) {
                         setRodloaderPosition("red");
                     } else {
                         setRodloaderPosition("green");
                     }
-        
+
                     if (searchEntry[0].headRef === false) {
                         setHeadRef("red");
                     } else {
@@ -148,7 +153,8 @@ function Rig08LiveDrilling(props) {
         }, 1000);
 
         return () => {
-            clearInterval(timer)
+            clearInterval(timer);
+            unmounted = true;
         }
 
     }, [props.live, props.time])
@@ -184,302 +190,307 @@ function Rig08LiveDrilling(props) {
                             </div>
                     &nbsp;
                     <div className="center-section">
-                    <CircularGauge value={(metric) ? holdback : (holdback * 14.5038)}>
-                        <CircularSize width={260} />
-                        <CircularScale
-                            startValue={0}
-                            endValue={(metric) ? 200 : 5000}
-                            tickInterval={(metric) ? 50 : 1000}
-                            minorTickInterval={(metric) ? 10 : 200}
+                                {(props.live) ? <div /> :
+                                    <div className="verifiedTime">
+                                        {(year === "" || second === "") ? <div /> : <Typography component={"h4"} variant={"h5"}>{`${day} ${month} ${year}  ${hour}:${minute}:${second}`}</Typography>}
+                                    </div>
+                                }
+                                <CircularGauge value={(metric) ? holdback : (holdback * 14.5038)}>
+                                    <CircularSize width={260} />
+                                    <CircularScale
+                                        startValue={0}
+                                        endValue={(metric) ? 200 : 5000}
+                                        tickInterval={(metric) ? 50 : 1000}
+                                        minorTickInterval={(metric) ? 10 : 200}
 
-                        />
-                        <Geometry startAngle={225} endAngle={315} />
-                        <CircularValueIndicator
-                            type="twoColorNeedle"
-                            secondFraction={0.4}
-                            color="none"
-                            secondColor={color}
-                            width={5}
-                        />
-                    </CircularGauge>
+                                    />
+                                    <Geometry startAngle={225} endAngle={315} />
+                                    <CircularValueIndicator
+                                        type="twoColorNeedle"
+                                        secondFraction={0.4}
+                                        color="none"
+                                        secondColor={color}
+                                        width={5}
+                                    />
+                                </CircularGauge>
 
-                    <div className="speed-value">
-                        <span>{(metric) ? holdback : Math.floor(holdback * 14.5038)}</span>
-                        <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
-                    </div>
-                    <h4 className="GaugeTitle">Holdback Pressure</h4>
-                    </div>
+                                <div className="speed-value">
+                                    <span>{(metric) ? holdback : Math.floor(holdback * 14.5038)}</span>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                </div>
+                                <h4 className="GaugeTitle">Holdback Pressure</h4>
+                            </div>
                     &nbsp;
                     <div className="center-section">
-                        <CircularGauge value={(metric) ? downholeAir : (downholeAir * 14.5038)}>
-                            <CircularSize width={260} />
-                            <CircularScale
-                                startValue={0}
-                                endValue={(metric) ? 400 : 5800}
-                                tickInterval={(metric) ? 100 : 1000}
-                                minorTickInterval={10}
-                            />
-                            <Geometry startAngle={225} endAngle={315} />
-                            <CircularValueIndicator
-                                type="twoColorNeedle"
-                                secondFraction={0.4}
-                                color="none"
-                                secondColor={color}
-                                width={5}
-                            />
-                        </CircularGauge>
+                                <CircularGauge value={(metric) ? downholeAir : (downholeAir * 14.5038)}>
+                                    <CircularSize width={260} />
+                                    <CircularScale
+                                        startValue={0}
+                                        endValue={(metric) ? 400 : 5800}
+                                        tickInterval={(metric) ? 100 : 1000}
+                                        minorTickInterval={10}
+                                    />
+                                    <Geometry startAngle={225} endAngle={315} />
+                                    <CircularValueIndicator
+                                        type="twoColorNeedle"
+                                        secondFraction={0.4}
+                                        color="none"
+                                        secondColor={color}
+                                        width={5}
+                                    />
+                                </CircularGauge>
 
-                        <div className="speed-value">
-                            <span>{(metric) ? downholeAir : Math.floor(downholeAir * 14.5038)}</span>
-                            <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
-                        </div>
-                        <h4 className="GaugeTitle">Air Pressure</h4>
-                    </div>
+                                <div className="speed-value">
+                                    <span>{(metric) ? downholeAir : Math.floor(downholeAir * 14.5038)}</span>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                </div>
+                                <h4 className="GaugeTitle">Air Pressure</h4>
+                            </div>
                     &nbsp;
                     <div className="center-section">
-                    <CircularGauge value={(metric) ? mainPump : (mainPump * 14.5038)}>
-                        <CircularSize width={260} />
-                        <CircularScale
-                            startValue={0}
-                            endValue={(metric) ? 400 : 5800}
-                            tickInterval={(metric) ? 100 : 1000}
-                            minorTickInterval={10}
-                        />
-                        <Geometry startAngle={225} endAngle={315} />
-                        <CircularValueIndicator
-                            type="twoColorNeedle"
-                            secondFraction={0.4}
-                            color="none"
-                            secondColor={color}
-                            width={5}
-                        />
-                    </CircularGauge>
+                                <CircularGauge value={(metric) ? mainPump : (mainPump * 14.5038)}>
+                                    <CircularSize width={260} />
+                                    <CircularScale
+                                        startValue={0}
+                                        endValue={(metric) ? 400 : 5800}
+                                        tickInterval={(metric) ? 100 : 1000}
+                                        minorTickInterval={10}
+                                    />
+                                    <Geometry startAngle={225} endAngle={315} />
+                                    <CircularValueIndicator
+                                        type="twoColorNeedle"
+                                        secondFraction={0.4}
+                                        color="none"
+                                        secondColor={color}
+                                        width={5}
+                                    />
+                                </CircularGauge>
 
-                    <div className="speed-value">
-                        <span>{(metric) ? mainPump : Math.floor(mainPump * 14.5038)}</span>
-                        <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
-                    </div>
-                    <h4 className="GaugeTitle">Rotation Pressure</h4>
-                    <FormGroup className="toggleScale">
-                        <FormControlLabel
-                            control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
-                            label={(metric) ? 'Metric' : 'Imperial'}
-                            labelPlacement="bottom"
-                        />
-                    </FormGroup>
-                    </div>
+                                <div className="speed-value">
+                                    <span>{(metric) ? mainPump : Math.floor(mainPump * 14.5038)}</span>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                </div>
+                                <h4 className="GaugeTitle">Rotation Pressure</h4>
+                                <FormGroup className="toggleScale">
+                                    <FormControlLabel
+                                        control={<ScaleSwitch checked={metric} onChange={toggleMetric} name="checkedA" />}
+                                        label={(metric) ? 'Metric' : 'Imperial'}
+                                        labelPlacement="bottom"
+                                    />
+                                </FormGroup>
+                            </div>
                     &nbsp;
                     <div className="center-section">
-                        <CircularGauge value={(metric) ? penetrationRate : (penetrationRate * 0.0393701)}>
-                            <CircularSize width={260} />
-                            <CircularScale
-                                startValue={20}
-                                endValue={200}
-                                tickInterval={20}
-                                minorTickInterval={10}
-                            />
-                            <Geometry startAngle={225} endAngle={315} />
-                            <CircularValueIndicator
-                                type="twoColorNeedle"
-                                secondFraction={0.4}
-                                color="none"
-                                secondColor={color}
-                                width={5}
-                            />
-                        </CircularGauge>
+                                <CircularGauge value={(metric) ? penetrationRate : (penetrationRate * 0.0393701)}>
+                                    <CircularSize width={260} />
+                                    <CircularScale
+                                        startValue={20}
+                                        endValue={200}
+                                        tickInterval={20}
+                                        minorTickInterval={10}
+                                    />
+                                    <Geometry startAngle={225} endAngle={315} />
+                                    <CircularValueIndicator
+                                        type="twoColorNeedle"
+                                        secondFraction={0.4}
+                                        color="none"
+                                        secondColor={color}
+                                        width={5}
+                                    />
+                                </CircularGauge>
 
-                        <div className="speed-value">
-                            <span>{(metric) ? penetrationRate : Math.floor(penetrationRate * 0.0393701)}</span>
-                            <p className="unit">{(metric) ? 'mm/m' : '"/m'}</p>
-                        </div>
-                        <h4 className="GaugeTitle">Penetration Rate</h4>
-                    </div>
+                                <div className="speed-value">
+                                    <span>{(metric) ? penetrationRate : Math.floor(penetrationRate * 0.0393701)}</span>
+                                    <p className="unit">{(metric) ? 'mm/m' : '"/m'}</p>
+                                </div>
+                                <h4 className="GaugeTitle">Penetration Rate</h4>
+                            </div>
                     &nbsp;
                     <div className="right-section">
-                        <CoolantTemp
-                            value={(metric) ? coolantTemp : (coolantTemp * 9 / 5) + 32}
-                            inverted={true}
-                            startAngle={90}
-                            endAngle={0}
-                            color={color}
-                            scale={metric}
-                        />
-                        <p className='sideGuageTitle'>{(metric) ? 'Coolant Temp °C' : 'Coolant Temp °F'}</p>
-                        <Indicator
-                            value={(metric) ? mainPump : (mainPump * 14.5038)}
-                            inverted={false}
-                            startAngle={0}
-                            endAngle={-90}
-                            color={color}
-                            scale={metric}
-                        />
-                        <p className='mainPumpScale'>{(metric) ? 'Bar' : 'Psi'}</p>
-                        <p className='sideGuageTitle'>Main Pump</p>
-                    </div>
-                </div>
-            </div>
-            <div id="gauge-demo">
-                <div id="gauge-container">
-                    <div className="left-section">
-                        <div className="sideGauge placeholder">
-                            <p></p>
-                        </div>
-                        <div className="sideGauge">
-                            <p>Head Position</p>
-                            <h4>{headPosition} mm</h4>
-                        </div>
-                        <div className="sideGauge">
-                            <p>Hole Depth</p>
-                            <h4>{holeDepth} m</h4>
-                        </div><div className="sideGauge">
-                            <p>Driller ID</p>
-                            <h6>{driller}</h6>
+                                <CoolantTemp
+                                    value={(metric) ? coolantTemp : (coolantTemp * 9 / 5) + 32}
+                                    inverted={true}
+                                    startAngle={90}
+                                    endAngle={0}
+                                    color={color}
+                                    scale={metric}
+                                />
+                                <p className='sideGuageTitle'>{(metric) ? 'Coolant Temp °C' : 'Coolant Temp °F'}</p>
+                                <Indicator
+                                    value={(metric) ? mainPump : (mainPump * 14.5038)}
+                                    inverted={false}
+                                    startAngle={0}
+                                    endAngle={-90}
+                                    color={color}
+                                    scale={metric}
+                                />
+                                <p className='mainPumpScale'>{(metric) ? 'Bar' : 'Psi'}</p>
+                                <p className='sideGuageTitle'>Main Pump</p>
+                            </div>
                         </div>
                     </div>
+                    <div id="gauge-demo">
+                        <div id="gauge-container">
+                            <div className="left-section">
+                                <div className="sideGauge placeholder">
+                                    <p></p>
+                                </div>
+                                <div className="sideGauge">
+                                    <p>Head Position</p>
+                                    <h4>{headPosition} mm</h4>
+                                </div>
+                                <div className="sideGauge">
+                                    <p>Hole Depth</p>
+                                    <h4>{holeDepth} m</h4>
+                                </div><div className="sideGauge">
+                                    <p>Driller ID</p>
+                                    <h6>{driller}</h6>
+                                </div>
+                            </div>
                     &nbsp;
                     <div className="center-section">
-                    <CircularGauge value={(metric) ? bitWeight : (bitWeight * 2.20462)}>
-                        <CircularSize width={260} />
-                        <CircularScale
-                            startValue={20}
-                            endValue={200}
-                            tickInterval={20}
-                            minorTickInterval={10}
-                        />
-                        <Geometry startAngle={225} endAngle={315} />
-                        <CircularValueIndicator
-                            type="twoColorNeedle"
-                            secondFraction={0.4}
-                            color="none"
-                            secondColor={color}
-                            width={5}
-                        />
-                    </CircularGauge>
+                                <CircularGauge value={(metric) ? bitWeight : (bitWeight * 2.20462)}>
+                                    <CircularSize width={260} />
+                                    <CircularScale
+                                        startValue={20}
+                                        endValue={200}
+                                        tickInterval={20}
+                                        minorTickInterval={10}
+                                    />
+                                    <Geometry startAngle={225} endAngle={315} />
+                                    <CircularValueIndicator
+                                        type="twoColorNeedle"
+                                        secondFraction={0.4}
+                                        color="none"
+                                        secondColor={color}
+                                        width={5}
+                                    />
+                                </CircularGauge>
 
-                    <div className="speed-value">
-                        <span>{(metric) ? bitWeight : Math.floor(bitWeight * 2.20462)}</span>
-                        <p className="unit">{(metric) ? 'Kgs' : "Lbs"}</p>
-                    </div>
-                    <h4 className="GaugeTitle">Bit Weight</h4>
-                </div>
+                                <div className="speed-value">
+                                    <span>{(metric) ? bitWeight : Math.floor(bitWeight * 2.20462)}</span>
+                                    <p className="unit">{(metric) ? 'Kgs' : "Lbs"}</p>
+                                </div>
+                                <h4 className="GaugeTitle">Bit Weight</h4>
+                            </div>
                     &nbsp;
                     <div className="center-section">
-                        <CircularGauge value={(metric) ? pulldown : (pulldown * 14.5038)}>
-                            <CircularSize width={260} />
-                            <CircularScale
-                                startValue={0}
-                                endValue={(metric) ? 200 : 2500}
-                                tickInterval={(metric) ? 50 : 500}
-                                minorTickInterval={(metric) ? 10 : 200}
-                            />
-                            <Geometry startAngle={225} endAngle={315} />
-                            <CircularValueIndicator
-                                type="twoColorNeedle"
-                                secondFraction={0.4}
-                                color="none"
-                                secondColor={color}
-                                width={5}
-                            />
-                        </CircularGauge>
+                                <CircularGauge value={(metric) ? pulldown : (pulldown * 14.5038)}>
+                                    <CircularSize width={260} />
+                                    <CircularScale
+                                        startValue={0}
+                                        endValue={(metric) ? 200 : 2500}
+                                        tickInterval={(metric) ? 50 : 500}
+                                        minorTickInterval={(metric) ? 10 : 200}
+                                    />
+                                    <Geometry startAngle={225} endAngle={315} />
+                                    <CircularValueIndicator
+                                        type="twoColorNeedle"
+                                        secondFraction={0.4}
+                                        color="none"
+                                        secondColor={color}
+                                        width={5}
+                                    />
+                                </CircularGauge>
 
-                        <div className="speed-value">
-                            <span>{(metric) ? pulldown : Math.floor(pulldown * 14.5038)}</span>
-                            <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
-                        </div>
-                        <h4 className="GaugeTitle">PullDown Pressure</h4>
+                                <div className="speed-value">
+                                    <span>{(metric) ? pulldown : Math.floor(pulldown * 14.5038)}</span>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                </div>
+                                <h4 className="GaugeTitle">PullDown Pressure</h4>
 
-                    </div>
+                            </div>
                     &nbsp;
                     <div className="center-section">
-                    <CircularGauge value={parseInt(rotationRpm)}>
-                        <CircularSize width={260} />
-                        <CircularScale
-                            startValue={0}
-                            endValue={30}
-                            tickInterval={2}
-                            minorTickInterval={10}
+                                <CircularGauge value={parseInt(rotationRpm)}>
+                                    <CircularSize width={260} />
+                                    <CircularScale
+                                        startValue={0}
+                                        endValue={30}
+                                        tickInterval={2}
+                                        minorTickInterval={10}
 
-                        />
-                        <Geometry startAngle={225} endAngle={315} />
-                        <CircularValueIndicator
-                            type="twoColorNeedle"
-                            secondFraction={0.4}
-                            color="none"
-                            secondColor={color}
-                            width={5}
-                        />
-                    </CircularGauge>
-                    <div className="speed-value">
-                        <span>{parseInt(rotationRpm)}</span>
-                        <p className="unit">Rpm</p>
-                    </div>
-                    <h4 className="GaugeTitle">Head RPM</h4>
-                </div>
+                                    />
+                                    <Geometry startAngle={225} endAngle={315} />
+                                    <CircularValueIndicator
+                                        type="twoColorNeedle"
+                                        secondFraction={0.4}
+                                        color="none"
+                                        secondColor={color}
+                                        width={5}
+                                    />
+                                </CircularGauge>
+                                <div className="speed-value">
+                                    <span>{parseInt(rotationRpm)}</span>
+                                    <p className="unit">Rpm</p>
+                                </div>
+                                <h4 className="GaugeTitle">Head RPM</h4>
+                            </div>
                     &nbsp;
                     <div className="center-section">
-                    <CircularGauge value={(metric) ? waterPressure : (waterPressure * 14.5038)}>
-                        <CircularSize width={260} />
-                        <CircularScale
-                            startValue={0}
-                            endValue={(metric) ? 100 : 1500}
-                            tickInterval={(metric) ? 20 : 500}
-                            minorTickInterval={10}
-                        />
-                        <Geometry startAngle={225}
-                            endAngle={315}
-                        />
-                        <CircularValueIndicator
-                            type="twoColorNeedle"
-                            secondFraction={.4}
-                            width={5}
-                            color=""
-                            secondColor={color}
-                        />
-                    </CircularGauge>
+                                <CircularGauge value={(metric) ? waterPressure : (waterPressure * 14.5038)}>
+                                    <CircularSize width={260} />
+                                    <CircularScale
+                                        startValue={0}
+                                        endValue={(metric) ? 100 : 1500}
+                                        tickInterval={(metric) ? 20 : 500}
+                                        minorTickInterval={10}
+                                    />
+                                    <Geometry startAngle={225}
+                                        endAngle={315}
+                                    />
+                                    <CircularValueIndicator
+                                        type="twoColorNeedle"
+                                        secondFraction={.4}
+                                        width={5}
+                                        color=""
+                                        secondColor={color}
+                                    />
+                                </CircularGauge>
 
-                    <div className="speed-value">
-                        <span>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
-                        <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
-                    </div>
-                    <h4 className="GaugeTitle">Water Pressure</h4>
-                </div>
+                                <div className="speed-value">
+                                    <span>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
+                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                </div>
+                                <h4 className="GaugeTitle">Water Pressure</h4>
+                            </div>
                 &nbsp;
                 <div className="right-section">
-                    <div className="sideGauge placeholder">
-                        <p></p>
+                                <div className="sideGauge placeholder">
+                                    <p></p>
+                                </div>
+                                <div className="sideGauge">
+                                    <p>Road Loader Position</p>
+                                    <Bulb
+                                        color={rodloaderPosition}
+                                        size={10}
+                                    />
+                                </div>
+                                <div className="sideGauge">
+                                    <p>Head Ref Position</p>
+                                    <Bulb
+                                        color={headRef}
+                                        size={10}
+                                    />
+                                </div>
+                                <div className="sideGauge">
+                                    <p>Engine Hours</p>
+                                    <h4>{engineHours} Hrs</h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="sideGauge">
-                        <p>Road Loader Position</p>
-                        <Bulb
-                            color={rodloaderPosition}
-                            size={10}
-                        />
-                    </div>
-                    <div className="sideGauge">
-                        <p>Head Ref Position</p>
-                        <Bulb
-                            color={headRef}
-                            size={10}
-                        />
-                    </div>
-                    <div className="sideGauge">
-                        <p>Engine Hours</p>
-                        <h4>{engineHours} Hrs</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
                 </React.Fragment>
                 :
                 // Mobile
-                
+
 
                 <React.Fragment>
-                    
+
                     <div className="mobileScale">
                         <FormGroup className="toggleScale mobileScale">
                             <FormControlLabel
-                                control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
+                                control={<ScaleSwitch checked={metric} onChange={toggleMetric} name="checkedA" />}
                                 label={(metric) ? 'Metric' : 'Imperial'}
                                 labelPlacement="bottom"
                             />
@@ -510,7 +521,7 @@ function Rig08LiveDrilling(props) {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span style={{textAlign: "center"}}>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
+                                    <span style={{ textAlign: "center" }}>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
                                     <p className="unitSmall">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Water Pressure</h4>
@@ -826,7 +837,7 @@ function Rig08LiveDrilling(props) {
                             </div>
                         </div>
                     </div>
-                    
+
                 </React.Fragment>
             }
 

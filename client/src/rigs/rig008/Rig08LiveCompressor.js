@@ -48,24 +48,33 @@ function Rig8LiveCompressor(props) {
     })(Switch);
 
     useEffect(() => {
+        let unmounted = false;
 
         const getData = async () => {
-            if (props.live === true) {
+            if (props.live === true && !(unmounted)) {
                 try {
-                    const lastEntry = await API.getLastEntry("rig08");
-                    console.log(lastEntry)
+                    const lastEntry = await API.getLastEntry("rig08", "compressor");
                     setDischargePressure(parseInt(lastEntry[0].compressorDischargeTemperature)      || 0);
                     setDownholeAir(parseInt(lastEntry[0].compressorLinePressure)                    || 0);
                     setInterstagePressure(parseInt(lastEntry[0].compressorInterstagePressure)       || 0);
                     setMastAngle(parseInt(lastEntry[0].mastAngle)                                   || 0);
                     setDeckRoll(parseInt(lastEntry[0].deckRoll)                                     || 0);
                     setDeckPitch(parseInt(lastEntry[0].deckPitch)                                   || 0);
-        
                 } catch (error) {
                     console.log(error)
                 }
-            } else {
-                console.log("not live")
+            } else if (!(unmounted)) {
+                try {
+                    const searchEntry = await API.getExactTime("rig08", "compressor", props.time.year, props.time.month, props.time.day, props.time.hour, props.time.minute, props.time.second);
+                    setDischargePressure(parseInt(searchEntry[0].compressorDischargeTemperature)      || 0);
+                    setDownholeAir(parseInt(searchEntry[0].compressorLinePressure)                    || 0);
+                    setInterstagePressure(parseInt(searchEntry[0].compressorInterstagePressure)       || 0);
+                    setMastAngle(parseInt(searchEntry[0].mastAngle)                                   || 0);
+                    setDeckRoll(parseInt(searchEntry[0].deckRoll)                                     || 0);
+                    setDeckPitch(parseInt(searchEntry[0].deckPitch)                                   || 0);
+                } catch (error) {
+                    console.log(error)
+                }
             }
         }
     
@@ -75,9 +84,10 @@ function Rig8LiveCompressor(props) {
 
         return () => {
             clearInterval(timer)
+            unmounted = true;
         }
 
-    }, [props.live])
+    }, [props.live, props.time])
 
     return (
         <React.Fragment>

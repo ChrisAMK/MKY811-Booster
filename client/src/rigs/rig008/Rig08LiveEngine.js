@@ -22,7 +22,6 @@ function Rig08LiveEngine(props) {
     const [coolantTemp, setCoolantTemp] = useState(0);
     const [mainPump, setMainPump] = useState(0);
     const [engineOilTemp, setEngineOilTemp] = useState(0);
-
     const [intakeTemp, setIntakeTemp] = useState(0);
     const [engineTorque, setEngineTorque] = useState(0);
     const [engineIntercoolerTemp, setEngineIntercoolerTemp] = useState(0);
@@ -54,28 +53,45 @@ function Rig08LiveEngine(props) {
     })(Switch);
 
     useEffect(() => {
+        let unmounted = false;
 
         const getData = async () => {
-            if (props.live === true) {
+            if (props.live === true && !(unmounted)) {
                 try {
-                    const lastEntry = await API.getLastEntry("rig08");
+                    const lastEntry = await API.getLastEntry("rig08", "engine");
+                    console.log(lastEntry)
                     setEngineRpm(parseInt(lastEntry[0].engineRPM) || 0);
                     setOilPressure(parseInt(lastEntry[0].oilPressure) || 0);
                     setEngineHours(parseInt(lastEntry[0].engineHours) || 0);
                     setCoolantTemp(parseInt(lastEntry[0].coolantTemp) || 0);
                     setMainPump(parseInt(lastEntry[0].mainPumpPressure) || 0);
                     setEngineOilTemp(parseInt(lastEntry[0].engineOilTemp) || 0);
-                    setIntakeTemp(parseInt(lastEntry[0].intakeTemp) || 0);
+                    setIntakeTemp(parseInt(lastEntry[0].intakeManifoldTemp) || 0);
                     setEngineTorque(parseInt(lastEntry[0].engineTorque) || 0);
-                    setEngineIntercoolerTemp(parseInt(lastEntry[0].engineIntercoolerTemp) || 0);
-                    setTurboSpeed(parseInt(lastEntry[0].turboSpeed) || 0);
+                    setEngineIntercoolerTemp(parseInt(lastEntry[0].intercoolerTemp) || 0);
+                    setTurboSpeed(parseInt(lastEntry[0].turboRpm) || 0);
                     setEngineOilLevel(parseInt(lastEntry[0].engineOilLevel) || 0);
         
                 } catch (error) {
                     console.log(error)
                 }
-            } else {
-                console.log("not live")
+            } else if (!(unmounted)) {
+                try {
+                    const searchEntry = await API.getExactTime("rig08", "engine", props.time.year, props.time.month, props.time.day, props.time.hour, props.time.minute, props.time.second);
+                    setEngineRpm(parseInt(searchEntry[0].engineRPM) || 0);
+                    setOilPressure(parseInt(searchEntry[0].oilPressure) || 0);
+                    setEngineHours(parseInt(searchEntry[0].engineHours) || 0);
+                    setCoolantTemp(parseInt(searchEntry[0].coolantTemp) || 0);
+                    setMainPump(parseInt(searchEntry[0].mainPumpPressure) || 0);
+                    setEngineOilTemp(parseInt(searchEntry[0].engineOilTemp) || 0);
+                    setIntakeTemp(parseInt(searchEntry[0].intakeManifoldTemp) || 0);
+                    setEngineTorque(parseInt(searchEntry[0].engineTorque) || 0);
+                    setEngineIntercoolerTemp(parseInt(searchEntry[0].intercoolerTemp) || 0);
+                    setTurboSpeed(parseInt(searchEntry[0].turboRpm) || 0);
+                    setEngineOilLevel(parseInt(searchEntry[0].engineOilLevel) || 0);
+                } catch (error) {
+                    console.log(error)
+                }
             }
         }
 
@@ -84,10 +100,11 @@ function Rig08LiveEngine(props) {
         }, 1000);
 
         return () => {
-            clearInterval(timer)
+            clearInterval(timer);
+            unmounted = true;
         }
 
-    }, [props.live])
+    }, [props.live, props.time])
 
 
     return (
