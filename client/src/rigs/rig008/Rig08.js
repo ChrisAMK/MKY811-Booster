@@ -25,7 +25,6 @@ import Typography from '@material-ui/core/Typography';
 
 // eslint-disable-next-line
 import API from '../../utils/API';
-import { set } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   list: {

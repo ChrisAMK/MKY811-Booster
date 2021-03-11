@@ -114,15 +114,16 @@ function Rig08LiveEngine(props) {
                 {/* <img src={require("../../assets/DrillBackground-3.png")} className="gaugeImg" alt="Logo" title="Click to go to Homepage" /> */}
                 <div id="gauge-container">
                     <div className="center-section">
-                        <CircularGauge value={engineRpm}>
+                        <CircularGauge value={engineRpm / 100}>
                             <CircularSize width={260} />
                             <CircularScale
                                 startValue={0}
-                                endValue={30}
-                                tickInterval={5}
-                                minorTickInterval={5}
+                                endValue={300}
+                                tickInterval={50}
+                                minorTickInterval={50}
 
                             />
+
                             <Geometry startAngle={225} endAngle={315} />
                             <CircularValueIndicator
                                 type="twoColorNeedle"
@@ -132,10 +133,9 @@ function Rig08LiveEngine(props) {
                                 width={5}
                             />
                         </CircularGauge>
-
                         <div className="speed-value">
-                            <span>{mainPump}</span>
-                            <p className="unit">Rpm</p>
+                            <span>{Math.floor(engineRpm / 10)}</span>
+                            <p className="unit">Rpm x10</p>
                         </div>
                         <h4 className="GaugeTitle">Engine RPM</h4>
                     </div>

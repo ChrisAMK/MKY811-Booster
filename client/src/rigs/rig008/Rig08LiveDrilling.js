@@ -88,6 +88,12 @@ function Rig08LiveDrilling(props) {
                     setWaterPressure(parseInt(lastEntry[0].waterPressure) || 0);
                     setBitWeight(parseInt(lastEntry[0].bitWeight) || 0);
                     setDriller(lastEntry[0].driller || 0);
+                    setYear(lastEntry[0].year || 0);
+                    setMonth(lastEntry[0].month || 0);
+                    setDay(lastEntry[0].date || 0);
+                    setHour(lastEntry[0].hour || 0);
+                    setMinute(lastEntry[0].minute || 0);
+                    setSecond(lastEntry[0].second || 0);
 
                     /// BOOLEANS
                     if (lastEntry[0].rodloaderPosition === false) {
@@ -169,7 +175,7 @@ function Rig08LiveDrilling(props) {
                         <div id="gauge-container">
                             <div className="left-section">
                                 <EngineRpm
-                                    value={engineRpm}
+                                    value={engineRpm/100}
                                     inverted={false}
                                     startAngle={180}
                                     endAngle={90}
