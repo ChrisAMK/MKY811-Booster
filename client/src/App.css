@@ -16,6 +16,13 @@
     top: 80px;
 }
 
+.controls21 {
+    position: absolute;
+    right: 250px;
+    z-index: 500;
+    top: 10px;
+}
+
 .row .spacer {
     padding-top: 100px;
 }
@@ -73,8 +80,11 @@
     width: 500px;
 }
 
-.currentTime .title .twenty1 {
-    right: 10px;
+.currentTime .title21 {
+    position: absolute;
+    margin-top: 70px;
+    margin-left: -475px;
+    width: 500px;
 }
 
 .rigSetup {
@@ -175,6 +185,7 @@
     margin-top: -100px;
     
 }
+
 
 .unitSmall {
     position: absolute;

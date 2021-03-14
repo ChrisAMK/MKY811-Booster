@@ -395,11 +395,9 @@ function Rig21Live() {
 
 
     useEffect(() => {
-        let unmounted = false;
-
 
         const getData = async () => {
-            if (live === true && !(unmounted)) {
+            if (live === true) {
                 try {
                     const lastEntry = await API.getLastEntry("rig021");
                     console.log(lastEntry);
@@ -451,7 +449,7 @@ function Rig21Live() {
                     console.log(error)
                 }
 
-            } else if (!(unmounted)) {
+            } else {
                 try {
                     const searchEntry = await API.getExactTime("rig021", "drilling", year, month, day, hour, minute, second);
                     console.log(searchEntry)
@@ -539,10 +537,9 @@ function Rig21Live() {
 
         return () => {
             clearInterval(timer);
-            unmounted = true;
         }
 
-    }, [handleChange, year, month, day, hour, minute, second]);
+    }, [handleChange, year, month, day, hour, minute, second, live]);
 
     return (
         <React.Fragment>
@@ -551,7 +548,7 @@ function Rig21Live() {
                 <React.Fragment>
                     {['bottom'].map((anchor) => (
                         <React.Fragment key={anchor}>
-                            <div className="controls">
+                            <div className="controls21">
                                 <ButtonGroup variant="contained" color="secondary" aria-label="contained primary button group">
                                     <Button onClick={toggleDrawer(anchor, true)} className={classes.buttonGroupsT}>{"Select Time"}</Button>
                                     <Drawer anchor={anchor} open={bottom} onClose={toggleDrawer(anchor, false)}>
@@ -646,7 +643,8 @@ function Rig21Live() {
                                     <h4 className="GaugeTitle">Rotation Pressure</h4>
                                 </div>
                                 <div className="currentTime">
-                                    <p className="currentTime title twenty1">Last Recorded Time: <br></br><span className="timeFont">{ready ? `${monthD} ${dayD} ${yearD} @ ${hourD}:${minuteD}:${secondD}` : "Select a Time to Start"}</span></p>
+                                    {/* <p className="currentTime title21">Last Recorded Time: <br></br><span className="timeFont">{ready ? `${monthD} ${dayD} ${yearD} @ ${hourD}:${minuteD}:${secondD}` : "Select a Time to Start"}</span></p> */}
+                                    <p className="currentTime title21">No data has been Captured, Fake data above <br></br><span className="timeFont">{ready ? `Waiting on Rig Setup` : "Select a Time to Start"}</span></p>
                                 </div>
                     &nbsp;
 

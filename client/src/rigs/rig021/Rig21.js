@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: "2.5px",
         paddingBottom: "2.5px",
         color: "white",
+        textShadow: "2px 2px red",
     }
   
   }));
