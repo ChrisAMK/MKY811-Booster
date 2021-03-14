@@ -4,15 +4,25 @@
     
 }
 
-body {
-    background-color: rgb(67, 67, 67);
+#root, html {
+    background-color: rgb(255, 255, 255);
 }
+
 
 .controls {
     position: absolute;
-    right: 25%;
+    right: 15px;
     z-index: 500;
-    margin-top: -50px;
+    top: 80px;
+}
+
+.row .spacer {
+    padding-top: 100px;
+}
+
+.rigTitle {
+    text-align: "center";
+    margin-top: 40px;
 }
 
 .timeDisplay {
@@ -43,6 +53,38 @@ body {
     z-index: 400;
 }
 
+.currentTime {
+    position: absolute;
+    z-index: 500;
+}
+
+.timeFont {
+    font-size: x-large;
+}
+
+.rigAngles {
+    font-size: x-large;
+}
+
+.currentTime .title {
+    position: absolute;
+    margin-top: 70px;
+    margin-left: -250px;
+    width: 500px;
+}
+
+.rigSetup {
+    position: absolute;
+    z-index: 500;
+}
+
+.rigSetup .title {
+    position: absolute;
+    margin-top: 70px;
+    margin-left: -250px;
+    width: 500px;
+}
+
 .unit {
     position: absolute;
     text-align: center;
@@ -51,7 +93,7 @@ body {
     font-size: small;
 }
 
-.timeControlButton{
+.timeControlButton {
     position: 20px;
 }
 
@@ -59,11 +101,24 @@ body {
 	background: rgb(255, 0, 0);
 	border-radius: 50%;
 	margin: 10px;
-	height: 20px;
-	width: 20px;
+	height: 40px;
+	width: 70px;
 
 	box-shadow: 0 0 0 0 rgb(255, 0, 0);
 	transform: scale(1);
+	animation: pulse 2s infinite;
+}
+
+.buttonGroupsLive {
+    background: linear-gradient(-10deg, #cc0e0e 10%, #cc0e0e 90%);
+    border-radius: 3px;
+    color: white;
+    border: 0px;
+    height: 40px;
+    width: 90px;
+    padding: 0 30px;
+    box-shadow: 0 3px 5px 2px rgba(255, 105, 135, .3);
+    transform: scale(1);
 	animation: pulse 2s infinite;
 }
 
@@ -101,6 +156,7 @@ body {
 	}
 }
 
+
 .isLive span {
     background-color: red;
     color: black;
@@ -110,6 +166,12 @@ body {
     background-color: grey;
 }
 
+.holesetup {
+    position: relative;
+    margin-top: -100px;
+    
+}
+
 .unitSmall {
     position: absolute;
     text-align: center;
@@ -117,7 +179,6 @@ body {
     margin-top: -75px;
     font-size: small;
     color: white;
-    
 }
 
 #gauge-demo {
@@ -148,9 +209,19 @@ body {
     z-index: 900;
 }
 
-.Compressor {
-    margin-left: 85px;
+.construction {
+    margin-top: 50px;
+}
+
+.Engine {
+    margin-right: 20px;
     margin-right: 0px;
+    margin-top: 45px;
+}
+
+.Compressor {
+    margin-left: 80px;
+
     margin-top: 45px;
 }
 
@@ -165,10 +236,26 @@ body {
     background-color: none;
     position: sticky;
     text-align: center;
-    margin-top: -30px;
     width: 100%;
     z-index: 450;
+    position: "absolute"; 
+    margin-top: -50px;
+    display: "block";
+    margin-left: 'auto';
+    margin-right: 'auto';
+    width: "100%";
+}
 
+.inPage {
+    position: absolute;
+    text-align: center;
+    margin-top: 8px;
+    z-index: 450;
+    margin-left: 'auto';
+    margin-right: 'auto';
+    width: "100%";
+    position: sticky;
+    text-align: center;
 }
 
 .sideGuageTitle {
@@ -366,7 +453,7 @@ height: 500px; */
 
 .speed-value {
     position: absolute;
-    border: 2px solid #f05b41;
+    border: 2px solid #cc0e0e;
     border-radius: 50%;
     width: 110px;
     height: 110px;
@@ -378,7 +465,7 @@ height: 500px; */
 .speed-value > span {
     font-size: 50px;
     font-weight: lighter;
-    color: #f05b41;
+    color: #cc0e0e;
 }
 
 #fuel-gauge {
@@ -398,7 +485,7 @@ height: 500px; */
 }
 
 #slider .dx-slider-handle {
-    background-color: #f05b41;
+    background-color: #cc0e0e;
     width: 16px;
     height: 16px;
     margin-top: -8px;
@@ -412,12 +499,12 @@ height: 500px; */
 }
 
 #slider .dx-slider-handle:after {
-    background-color: #f05b41;
+    background-color: #cc0e0e;
 }
 
 #slider .dx-slider-range.dx-slider-range-visible {
-    border-color: #f05b41;
-    background-color: #f05b41;
+    border-color: #cc0e0e;
+    background-color: #cc0e0e;
 }
 
 .GaugeTitle {

@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "Sm0thering.",
+    "password": "root",
     "database": "drillmonitoring",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql"
   }
 

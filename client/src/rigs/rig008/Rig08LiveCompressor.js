@@ -12,16 +12,13 @@ import Switch from '@material-ui/core/Switch';
 import CircularGauge, { Geometry, Scale as CircularScale, Size as CircularSize, ValueIndicator as CircularValueIndicator } from 'devextreme-react/circular-gauge';
 
 
-const color = '#f05b41';
+const color = '#cc0e0e';
 
 function Rig8LiveCompressor(props) {
 
     const [dischargePressure, setDischargePressure] = useState(0);
     const [downholeAir, setDownholeAir] = useState(0);
     const [interstagePressure, setInterstagePressure] = useState(0);
-    const [mastAngle, setMastAngle] = useState(0);
-    const [deckRoll, setDeckRoll] = useState(0);
-    const [deckPitch, setDeckPitch] = useState(0);
     const [metric, setMetric] = useState(false);
 
 
@@ -35,12 +32,12 @@ function Rig8LiveCompressor(props) {
 
     const ScaleSwitch = withStyles({
         switchBase: {
-            color: "#f05b41",
+            color: "#cc0e0e",
             '&$checked': {
-                color: "#f05b41",
+                color: "#cc0e0e",
             },
             '&$checked + $track': {
-                backgroundColor: "#f05b41",
+                backgroundColor: "#cc0e0e",
             },
         },
         checked: {},
@@ -57,9 +54,6 @@ function Rig8LiveCompressor(props) {
                     setDischargePressure(parseInt(lastEntry[0].compressorDischargeTemperature)      || 0);
                     setDownholeAir(parseInt(lastEntry[0].compressorLinePressure)                    || 0);
                     setInterstagePressure(parseInt(lastEntry[0].compressorInterstagePressure)       || 0);
-                    setMastAngle(parseInt(lastEntry[0].mastAngle)                                   || 0);
-                    setDeckRoll(parseInt(lastEntry[0].deckRoll)                                     || 0);
-                    setDeckPitch(parseInt(lastEntry[0].deckPitch)                                   || 0);
                 } catch (error) {
                     console.log(error)
                 }
@@ -69,9 +63,6 @@ function Rig8LiveCompressor(props) {
                     setDischargePressure(parseInt(searchEntry[0].compressorDischargeTemperature)      || 0);
                     setDownholeAir(parseInt(searchEntry[0].compressorLinePressure)                    || 0);
                     setInterstagePressure(parseInt(searchEntry[0].compressorInterstagePressure)       || 0);
-                    setMastAngle(parseInt(searchEntry[0].mastAngle)                                   || 0);
-                    setDeckRoll(parseInt(searchEntry[0].deckRoll)                                     || 0);
-                    setDeckPitch(parseInt(searchEntry[0].deckPitch)                                   || 0);
                 } catch (error) {
                     console.log(error)
                 }
@@ -93,6 +84,7 @@ function Rig8LiveCompressor(props) {
         <React.Fragment>
             {(window.outerWidth > 1500) ?
                 <React.Fragment>
+                    <br></br>
                     <div id="gauge-demo">
                         {/* <img src={require("../../assets/DrillBackground-3.png")} className="gaugeImg" alt="Logo" title="Click to go to Homepage" /> */}
                         <div id="gauge-container">
@@ -185,10 +177,7 @@ function Rig8LiveCompressor(props) {
                     <div id="gauge-demo">
                         {/* <img src={require("../../assets/DrillBackground-3.png")} className="gaugeImg" alt="Logo" title="Click to go to Homepage" /> */}
                         <div id="gauge-container">
-                            <br></br><br></br><br></br><br></br>
-                            <h1>{mastAngle}</h1>
-                            <h1>{deckPitch}</h1>
-                            <h1>{deckRoll}</h1>
+
                         </div>
                     </div>
                 </React.Fragment>

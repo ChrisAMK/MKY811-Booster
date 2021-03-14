@@ -16,6 +16,22 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
 
+  buttonGroups: {
+    background: 'rgb(60, 60, 60)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(30, 30, 30, .3)',
+    width: "100%",
+    flexGrow: 1,
+    '&:hover': {
+      color: "#cc0e0e",
+      textDecoration: "none",
+    },
+  },
+
   title: {
     color: "black",
     '&:hover': {
@@ -39,7 +55,7 @@ function Landing() {
   const classes = useStyles();
   return (
     <div className="container">
-      <div className="row">
+      <div className="row spacer" style={{paddingTop: "100px"}}>
         <div className="col-6">
         <Card className={classes.root}>
           <Link to="/Rig21" className={classes.title}>
@@ -60,19 +76,19 @@ function Landing() {
                   Diamond
                   </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                Currently stationed in Newman
+                Currently Drilling at RTX
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Link>
           <CardActions className={classes.root}>
-            <Button size="small" color="primary" className={classes.root}>
+            <Button color="primary" className={classes.buttonGroups} href="/Rig21">
               Live
             </Button>
-            <Button size="small" color="primary" className={classes.root}>
+            <Button color="primary" className={classes.buttonGroups} href="/Rig21">
               Statistics
             </Button>
-            <Button size="small" color="primary" className={classes.root}>
+            <Button color="primary" className={classes.buttonGroups} href="/Rig21">
               Alerts
             </Button>
           </CardActions>
@@ -98,27 +114,21 @@ function Landing() {
                   RC
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Currently stationed in Karratha
+                  Currently Drilling at CloudBreak
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Link>
           <CardActions className={classes.root}>
-            <Link to="/Rig08" className={classes.root}>
-              <Button size="small" color="primary">
-                Live
-              </Button>
-            </Link>
-            <Link to="/Rig08" className={classes.root}>
-              <Button size="small" color="primary">
-                Statistics
-              </Button>
-            </Link>
-            <Link to="/Rig08" className={classes.root}>
-              <Button size="small" color="primary">
-                Alerts
-              </Button>
-            </Link>
+            <Button color="primary" className={classes.buttonGroups} href="/Rig08">
+              Live
+            </Button>
+            <Button color="primary" className={classes.buttonGroups} href="/Rig08">
+              Statistics
+            </Button>
+            <Button color="primary" className={classes.buttonGroups} href="/Rig08">
+              Alerts
+            </Button>
           </CardActions>
         </Card>
         </div>

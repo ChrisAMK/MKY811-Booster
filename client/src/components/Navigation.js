@@ -20,6 +20,12 @@ const useStyles = makeStyles({
   fullList: {
     width: 'auto',
   },
+  link: {
+    color: "black",
+    "&:hover": {
+      color: "black"
+    },
+  }
 });
 
 export default function TemporaryDrawer() {
@@ -51,8 +57,8 @@ export default function TemporaryDrawer() {
       <List>
       
         {['Home', 'Rig 21', 'Rig 08'].map((text, index) => (
-        <Link to= {(text === "Home") ? '/' : `/${text.replace(/\s/g, '')}` } key={index}>
-          <ListItem button key={text}>
+        <Link to= {(text === "Home") ? '/' : `/${text.replace(/\s/g, '')}` } key={index} className={classes.link}>
+          <ListItem button key={text} href={(text === "Home") ? '/' : `/${text.replace(/\s/g, '')}` }>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <InboxIcon />}</ListItemIcon>
             <ListItemText primary={text} />         
           </ListItem>
@@ -63,7 +69,7 @@ export default function TemporaryDrawer() {
       <Divider />
       <List>
         {['Statistics', 'Alerts',].map((text, index) => (
-        <Link to= {`/${text.replace(/\s/g, '')}`} key={index}>
+        <Link to= {`/${text.replace(/\s/g, '')}`} key={index} className={classes.link}>
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <BarChartIcon /> : <ReportProblemIcon />}</ListItemIcon>
             <ListItemText primary={text} />
@@ -75,7 +81,7 @@ export default function TemporaryDrawer() {
   );
 
   return (
-    <div>
+    <div style={{backgroundColor: "rgb(60, 60, 60)", boxShadow: '0 0px 5px 3px black'}}>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button><img src={require("../assets/mckays.png")} className="logo" alt="logo" onClick={toggleDrawer(anchor, true)}></img></Button>

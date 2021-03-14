@@ -35,3 +35,11 @@ db.sequelize.sync().then(() => {
     console.log(`🌎 ==> API server now on port ${PORT}!`);
   });
 });
+
+
+// "development": {
+//   "username": "laptop",
+//   "password": "root",
+//   "database": "drillmonitoring",
+//   "host": "192.168.1.31",
+//   "dialect": "mysql"

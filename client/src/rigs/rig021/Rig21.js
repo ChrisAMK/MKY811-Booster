@@ -3,8 +3,36 @@ import Rig8Live from './Rig21Live';
 import Rig8Alerts from './Rig21Alerts';
 import Rig8Statistics from './Rig21Statistics';
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
-function Rig08() {
+const useStyles = makeStyles((theme) => ({
+
+    buttonGroups: {
+      border: 0,
+      color: '#cc0e0e',
+      background: 'white',
+      borderRadius: 3,
+      "&:hover": {
+        backgroundColor: "#d8545c",
+        color: "white"
+      },
+    },
+
+    rigTitle: {
+        textAlign: "center",
+        position: "absolute",
+        marginTop:"-45px",
+        right: "10px",
+        paddingTop: "2.5px",
+        paddingBottom: "2.5px",
+        color: "white",
+    }
+  
+  }));
+
+function Rig21() {
+        const classes = useStyles();
         // We use page state to determine which sub-component is to be rendered inside the manager page
         const [page, setPage] = useState("");
 
@@ -32,14 +60,16 @@ function Rig08() {
         <React.Fragment>
             {(window.outerWidth > 900) ? <React.Fragment></React.Fragment>: <React.Fragment><br /><br /></React.Fragment>}
             <div className="navButton">
-                <Button onClick={() => setPage("Live")}>Live</Button>
-                <Button onClick={() => setPage("Statistics")}>Statistics</Button>
-                <Button onClick={() => setPage("Alerts")}>Alerts</Button>
+                <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+                    <Button onClick={() => setPage("Live")} style={{width: "150px"}}  className={classes.buttonGroups}>Live</Button>
+                    <Button onClick={() => setPage("Statistics")} style={{width: "150px"}}  className={classes.buttonGroups}>Statistics</Button>
+                    <Button onClick={() => setPage("Alerts")} style={{width: "150px"}}  className={classes.buttonGroups}>Alerts</Button>
+                </ ButtonGroup>
             </div>
-            <h1 style={{textAlign: "center"}}>RIG 21</h1>
+            <h1 className={classes.rigTitle}>RIG 21</h1>
             {toRender()}
         </React.Fragment>
     )
 }
 
-export default Rig08;
+export default Rig21;

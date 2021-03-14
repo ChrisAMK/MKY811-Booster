@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React, { useState, PureComponent, useEffect, Component } from "react";
+import React, { useState, PureComponent, useEffect, Component, useCallback } from "react";
 // eslint-disable-next-line
 import API from "../../utils/API";
 
@@ -7,6 +7,25 @@ import { withStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Slider from '@material-ui/core/Slider';
+import DateFnsUtils from '@date-io/date-fns';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import FastForwardIcon from '@material-ui/icons/FastForward';
+import FastRewindIcon from '@material-ui/icons/FastRewind';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 //import Switch from '@material-ui/core/Switch';
 import CircularGauge, { Geometry, Scale as CircularScale, Size as CircularSize, ValueIndicator as CircularValueIndicator } from 'devextreme-react/circular-gauge';
@@ -17,10 +36,151 @@ import CoolantTemp from '../../components/CoolantTemp';
 
 import Bulb from 'react-bulb';
 
-const color = '#f05b41';
+const color = '#cc0e0e';
 
-function Rig21Live(props) {
+const theme = createMuiTheme({
+    overrides: {
 
+        MuiPickersToolbar: {
+            toolbar: {
+                backgroundColor: '#cc0e0e',
+            },
+        },
+        MuiPickersDay: {
+            day: {
+                color: 'black',
+            },
+            daySelected: {
+                backgroundColor: '#cc0e0e',
+                "&:hover": {
+                    backgroundColor: "#d8545c"
+                },
+            },
+            current: {
+                color: '#cc0e0e',
+            },
+        },
+        MuiPickersModal: {
+            dialogAction: {
+                color: '#cc0e0e',
+            },
+        },
+    },
+});
+
+
+const useStyles = makeStyles((theme) => ({
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: 'auto',
+    },
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+
+    buttonGroupsL: {
+        background: '#cc0e0e',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 40,
+        padding: '0 30px',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        "&:hover": {
+            backgroundColor: "rgb(60, 60, 60)",
+            color: "white",
+        },
+    },
+    buttonGroupsM: {
+        background: '#cc0e0e',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 40,
+        padding: '0 30px',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        "&:hover": {
+            backgroundColor: "rgb(60, 60, 60)",
+            color: "white",
+        },
+    },
+    buttonGroupsR: {
+        background: '#cc0e0e',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 40,
+        padding: '0 30px',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        "&:hover": {
+            backgroundColor: "rgb(60, 60, 60)",
+            color: "white",
+        },
+    },
+
+    buttonGroupsT: {
+        background: '#cc0e0e',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 40,
+        padding: '0 30px',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        "&:hover": {
+            backgroundColor: "#cc0e0e"
+        },
+    },
+
+    buttonGroupsLive: {
+        background: '#cc0e0e',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 40,
+        padding: '0 30px',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    },
+
+    buttonGroupsOff: {
+        background: '#cc0e0e',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 40,
+        padding: '0 30px',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        "&:hover": {
+            backgroundColor: "#cc0e0e"
+        },
+    },
+
+    btnGroup: {
+        display: 'flex',
+        marginTop: '20px',
+        flexDirection: 'column',
+        alignItems: 'center',
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+}));
+
+function valuetext(value) {
+    return `${value}°C`;
+}
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+function Rig21Live() {
+
+    const classes = useStyles();
     const [engineRpm, setEngineRpm] = useState(0);
     const [oilPressure, setOilPressure] = useState(0);
     const [engineHours, setEngineHours] = useState(0);
@@ -39,8 +199,25 @@ function Rig21Live(props) {
     const [bitWeight, setBitWeight] = useState(0);
     const [driller, setDriller] = useState(0);
     const [metric, setMetric] = useState(true);
+    const [bottom, setBottom] = useState(false);
+    const [year, setYear] = useState("");
+    const [month, setMonth] = useState("");
+    const [day, setDay] = useState(0);
+    const [hour, setHour] = useState(0);
+    const [minute, setMinute] = useState(0);
+    const [second, setSecond] = useState(0);
+    const [mastAngle, setMastAngle] = useState(0);
+    const [deckRoll, setDeckRoll] = useState(0);
+    const [deckPitch, setDeckPitch] = useState(0);
 
-    const handleChange = (event) => {
+
+    // eslint-disable-next-line
+    const [sliderTime, setSliderTime] = useState(0);
+    const [live, setLive] = useState(true);
+    const [selectedDate, setSelectedDate] = useState(Date.now());
+    const [ready, setReady] = useState(false);
+
+    const handleLiveChange = () => {
         if (metric) {
             setMetric(false);
         } else {
@@ -50,369 +227,636 @@ function Rig21Live(props) {
 
     const ScaleSwitch = withStyles({
         switchBase: {
-            color: "#f05b41",
+            color: "#cc0e0e",
             '&$checked': {
-                color: "#f05b41",
+                color: "#cc0e0e",
             },
             '&$checked + $track': {
-                backgroundColor: "#f05b41",
+                backgroundColor: "#cc0e0e",
             },
         },
         checked: {},
         track: {},
     })(Switch);
 
-    const getData = async () => {
+    const handleDateChange = (date) => {
+        setLive(false);
+        setDay(date.getDate());
+        setMonth(months[date.getMonth()]);
+        setYear(date.getFullYear());
+        setSelectedDate(date);
+    };
 
-        try {
-            const lastEntry = await API.getLastEntry("rig021");
-            console.log(lastEntry);
-            setEngineRpm(parseInt(lastEntry[0].engineRPM) || 0);
-            setOilPressure(parseInt(lastEntry[0].oilPressure) || 0);
-            setEngineHours(parseInt(lastEntry[0].engineHours) || 0);
-            setCoolantTemp(parseInt(lastEntry[0].coolantTemp) || 0);
-            setHeadPosition(parseInt(lastEntry[0].headPosition) || 0);
-            setHoleDepth(parseInt(lastEntry[0].holeDepth) || 0);
-            setRotationRpm(parseInt(lastEntry[0].rotationRpm) || 0);
-            setPenetrationRate(parseInt(lastEntry[0].penetrationRate) || 0);
-            setMainPump(parseInt(lastEntry[0].mainPumpPressure) || 0);
-            setHoldback(parseInt(lastEntry[0].holdBackPressure) || 0);
-            setPulldown(parseInt(lastEntry[0].pulldownPressure) || 0);
-            setWaterPressure(parseInt(lastEntry[0].waterPressure) || 0);
-            setBitWeight(parseInt(lastEntry[0].bitWeight) || 0);
-            setDriller(parseInt(lastEntry[0].driller) || 0);
-
-            /// BOOLEANS
-            if (lastEntry[0].coolantLevelSensor === false) {
-                setCoolantLevel("red");
-            } else {
-                setCoolantLevel("green");
+    const handleChange = useCallback((event, newValue) => {
+        setLive(false);
+        if (event.type === "mouseup" || event.type === "mousemove" || event.type === "mousedown") {
+            if (newValue) {
+                setSliderTime(newValue);
+                setHour(Math.floor((newValue / 60) / 60));
+                setMinute(Math.floor(((newValue % 86400) % 3600) / 60));
+                setSecond(((newValue % 86400) % 3600) % 60);
             }
-
-            if (lastEntry[0].footClampPressureSwitch === false) {
-                setFootClamp("red");
-            } else {
-                setFootClamp("green");
-            }
-
-            if (lastEntry[0].headBackRackProxyStatus === false) {
-                setHeadBackRack("red");
-            } else {
-                setHeadBackRack("green");
-            }
-        } catch (error) {
-            console.log(error)
         }
-        
+    }, []);
+
+    const toggleLive = () => {
+        live ? setLive(false) : setLive(true);
     }
 
-    useEffect(() => {
+    const toggleDrawer = (anchor, open) => (event) => {
+        if ((event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) || event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            return;
+        }
 
+        setBottom(open);
+    };
+
+    const handleRR = () => {
+        setSecond(second - 1);
+        if (second < 1) {
+            setSecond(59);
+            if (minute < 1) {
+                setHour(hour - 1);
+                setMinute(59);
+                setSecond(59);
+            } else {
+                setMinute(minute - 1);
+            }
+        }
+    }
+
+    const handleFF = () => {
+        setSecond(second + 1);
+        if (second > 58) {
+            setSecond(0);
+            if (minute > 58) {
+                setHour(hour + 1);
+                setMinute(0);
+                setSecond(0);
+            } else {
+                setMinute(minute + 1);
+            }
+        }
+    }
+
+    const list = (anchor) => (
+        <div
+            className={clsx(classes.list, {
+                [classes.fullList]: anchor === 'bottom',
+            })}
+            role="presentation"
+            onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <List>
+                {['Year'].map((text, index) => (
+                    <ListItem key={text}>
+                        <div className={classes.root}>
+                            <Grid container spacing={3}>
+                                <Grid item xs={2}></Grid>
+                                <Grid item xs={3}>
+                                    <ThemeProvider theme={theme}>
+                                        <div className={classes.root} style={{ width: "100%", color: "#cc0e0e" }}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <Grid container justify="space-around">
+                                                    <KeyboardDatePicker
+                                                        margin="normal"
+                                                        id="date-picker-dialog"
+                                                        label="Date picker dialog"
+                                                        format="dd/MM/yyyy"
+                                                        value={selectedDate}
+                                                        onChange={handleDateChange}
+                                                        KeyboardButtonProps={{
+                                                            'aria-label': 'change date',
+                                                        }}
+                                                    />
+                                                </Grid>
+                                            </MuiPickersUtilsProvider>
+                                        </div>
+                                    </ThemeProvider>
+                                </Grid>
+                                <Grid item xs={2}>
+
+                                    <div className={classes.btnGroup}>
+                                        <ButtonGroup variant="contained" color="secondary" aria-label="contained primary button group">
+                                            <Button onClick={handleRR} className={classes.buttonGroupsL}><FastRewindIcon /></Button>
+                                            {/* {playback ?
+                                                <Button onClick={handlePause} className={classes.buttonGroupsL}><PauseIcon /></Button>
+                                                :
+                                                <Button onClick={handlePlay} className={classes.buttonGroupsM}><PlayArrowIcon /></Button>
+                                            } */}
+                                            <Button onClick={handleFF} className={classes.buttonGroupsR}><FastForwardIcon /></Button>
+                                        </ButtonGroup>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    {(year === "" || hour === "") ?
+                                        <div style={{ width: "100%", textAlign: "center", marginTop: "25px" }}>
+                                            <Typography component={"h5"} variant={"h5"} id="here">No Date Selected</Typography>
+                                        </div>
+                                        :
+                                        <div style={{ width: "100%", textAlign: "center", marginTop: "25px" }}>
+                                            <Typography component={"h5"} variant={"h5"}>{`${day} ${month} ${year}  ${hour}:${minute}:${second}`}</Typography>
+                                        </div>
+                                    }
+
+                                </Grid>
+                                <Grid item xs={2}>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <div className={classes.root} style={{ width: "100%" }}>
+                                        <Slider
+                                            defaultValue={30}
+                                            onChange={handleChange}
+                                            getAriaValueText={valuetext}
+                                            value={sliderTime}
+                                            aria-label="continuous-slider"
+                                            valueLabelDisplay="off"
+                                            id={"sliderTime"}
+                                            min={0}
+                                            max={86400}
+                                            color="secondary"
+                                            style={{ color: "#cc0e0e" }}
+                                        />
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    </ListItem>
+                ))}
+            </List>
+        </div>
+    );
+
+
+    useEffect(() => {
+        let unmounted = false;
+        
+
+        const getData = async () => {
+            if (live === true && !(unmounted)) {
+                try {
+                    const lastEntry = await API.getLastEntry("rig021");
+                    console.log(lastEntry);
+                    const driller = lastEntry[0].driller.split("\x00");
+                    setEngineRpm(parseInt(lastEntry[0].engineRPM) || 0);
+                    setOilPressure(parseInt(lastEntry[0].oilPressure) || 0);
+                    setEngineHours(parseInt(lastEntry[0].engineHours) || 0);
+                    setCoolantTemp(parseInt(lastEntry[0].coolantTemp) || 0);
+                    setHeadPosition(parseInt(lastEntry[0].headPosition) || 0);
+                    setHoleDepth(parseInt(lastEntry[0].holeDepth) || 0);
+                    setRotationRpm(parseInt(lastEntry[0].rotationRpm) || 0);
+                    setPenetrationRate(parseInt(lastEntry[0].penetrationRate) || 0);
+                    setMainPump(parseInt(lastEntry[0].mainPumpPressure) || 0);
+                    setHoldback(parseInt(lastEntry[0].holdBackPressure) || 0);
+                    setPulldown(parseInt(lastEntry[0].pulldownPressure) || 0);
+                    setWaterPressure(parseInt(lastEntry[0].waterPressure) || 0);
+                    setBitWeight(parseInt(lastEntry[0].bitWeight) || 0);
+                    setDriller(parseInt(lastEntry[0].driller) || 0);
+                    setDriller(driller[0].toUpperCase() || 0);
+                    setYear(lastEntry[0].year || 0);
+                    setMonth(lastEntry[0].month || 0);
+                    setDay(lastEntry[0].date || 0);
+                    setHour(lastEntry[0].hour || 0);
+                    setMinute(lastEntry[0].minute || 0);
+                    setSecond(lastEntry[0].second || 0);
+                    setMastAngle(lastEntry[0].mastAngle || 0)
+                    setDeckRoll(lastEntry[0].deckRoll || 0);
+                    setDeckPitch(lastEntry[0].deckPitch || 0);
+
+                    /// BOOLEANS
+                    if (lastEntry[0].coolantLevelSensor === false) {
+                        setCoolantLevel("red");
+                    } else {
+                        setCoolantLevel("green");
+                    }
+
+                    if (lastEntry[0].footClampPressureSwitch === false) {
+                        setFootClamp("red");
+                    } else {
+                        setFootClamp("green");
+                    }
+
+                    if (lastEntry[0].headBackRackProxyStatus === false) {
+                        setHeadBackRack("red");
+                    } else {
+                        setHeadBackRack("green");
+                    }
+                    setReady(true);
+                } catch (error) {
+                    console.log(error)
+                }
+
+            } else if (!(unmounted)) {
+                try {
+                    const searchEntry = await API.getExactTime("rig08", "drilling", year, month, day, hour, minute, second);
+                    console.log(searchEntry)
+                    const driller = searchEntry[0].driller.split("\x00")
+                    setEngineRpm(parseInt(searchEntry[0].engineRPM) || 0);
+                    setOilPressure(parseInt(searchEntry[0].oilPressure) || 0);
+                    setEngineHours(parseInt(searchEntry[0].engineHours) || 0);
+                    setCoolantTemp(parseInt(searchEntry[0].coolantTemp) || 0);
+                    setHeadPosition(parseInt(searchEntry[0].headPosition) || 0);
+                    setHoleDepth(parseInt(searchEntry[0].holeDepth) || 0);
+                    setRotationRpm(parseInt(searchEntry[0].rotationRpm) || 0);
+                    setPenetrationRate(parseInt(searchEntry[0].penetrationRate) || 0);
+                    setMainPump(parseInt(searchEntry[0].mainPumpPressure) || 0);
+                    setHoldback(parseInt(searchEntry[0].holdBackPressure) || 0);
+                    setPulldown(parseInt(searchEntry[0].pulldownPressure) || 0);
+                    setWaterPressure(parseInt(searchEntry[0].waterPressure) || 0);
+                    setBitWeight(parseInt(searchEntry[0].bitWeight) || 0);
+                    setDriller(parseInt(searchEntry[0].driller) || 0);
+                    setDriller(driller[0].toUpperCase() || 0);
+                    setYear(searchEntry[0].year || 0);
+                    setMonth(searchEntry[0].month || 0);
+                    setDay(searchEntry[0].date || 0);
+                    setHour(searchEntry[0].hour || 0);
+                    setMinute(searchEntry[0].minute || 0);
+                    setSecond(searchEntry[0].second || 0);
+                    setMastAngle(searchEntry[0].mastAngle || 0)
+                    setDeckRoll(searchEntry[0].deckRoll || 0);
+                    setDeckPitch(searchEntry[0].deckPitch || 0);
+
+                    /// BOOLEANS
+                    if (searchEntry[0].coolantLevelSensor === false) {
+                        setCoolantLevel("red");
+                    } else {
+                        setCoolantLevel("green");
+                    }
+
+                    if (searchEntry[0].footClampPressureSwitch === false) {
+                        setFootClamp("red");
+                    } else {
+                        setFootClamp("green");
+                    }
+
+                    if (searchEntry[0].headBackRackProxyStatus === false) {
+                        setHeadBackRack("red");
+                    } else {
+                        setHeadBackRack("green");
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        }
+
+        const keyDown = (event) => {
+            switch (event.key) {
+                case "ArrowUp":
+                    console.log("Arrow Up");
+                    break;
+                case "ArrowRight":
+                    console.log("Arrow Right");
+                    break;
+                case "ArrowLeft":
+                    console.log("Arrow Left")
+                    break;
+                case "ArrowDown":
+                    console.log("Arrow Down")
+                    break;
+                default:
+                    return;
+            }
+            console.log("KEY")
+        }
+        const mouseOff = (event) => {
+            if (event.target.className === "MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-active") {
+                handleChange(event)
+            }
+            return;
+        }
+
+        document.addEventListener('mouseup', mouseOff, false);
+        document.addEventListener('keydown', keyDown, false);
+        
         let timer = setInterval(() => {
             getData()
         }, 1000);
 
         return () => {
-            clearInterval(timer)
+            clearInterval(timer);
+            unmounted = true;
         }
 
-    }, [])
+    }, [handleChange]);
 
     return (
         <React.Fragment>
 
             {(window.outerWidth > 1500) ?
                 <React.Fragment>
-                    <div id="gauge-demo">
-                        <img src={require("../../assets/DrillBackground-3.png")} className="gaugeImg" alt="Logo" title="Click to go to Homepage" />
-                        <div id="gauge-container">
-                            <div className="left-section">
-                                <EngineRpm
-                                    value={engineRpm}
-                                    inverted={false}
-                                    startAngle={180}
-                                    endAngle={90}
-                                    color={color}
-                                />
-                                <p className='engineRpmScale'>x100</p>
-                                <p className='sideGuageTitle'>Engine RPM</p>
-                                <OilPressure
-                                    value={(metric) ? (oilPressure * 0.0689476) : oilPressure}
-                                    inverted={true}
-                                    startAngle={-90}
-                                    endAngle={-180}
-                                    color={color}
-                                    scale={metric}
-                                />
-                                <p className='oilPressureScale'>{(metric) ? 'Bar' : 'Psi'}</p>
-                                <p className='sideGuageTitle'>Oil Pressure</p>
+                    {['bottom'].map((anchor) => (
+                        <React.Fragment key={anchor}>
+                            <div className="controls">
+                                <ButtonGroup variant="contained" color="secondary" aria-label="contained primary button group">
+                                    <Button onClick={toggleDrawer(anchor, true)} className={classes.buttonGroupsT}>{"Select Time"}</Button>
+                                    <Drawer anchor={anchor} open={bottom} onClose={toggleDrawer(anchor, false)}>
+                                        {list(anchor)}
+                                    </Drawer>
+
+                                </ButtonGroup>
+                                <ButtonGroup variant="contained" aria-label="contained primary button group">
+                                    <Button onClick={toggleLive} className={(live) ? "buttonGroupsLive" : classes.buttonGroupsOff}>Live</Button>
+                                </ButtonGroup>
+
                             </div>
+                        </React.Fragment>
+                    ))}
+                    <div style={{ marginTop: "-10px" }}>
+                        <div id="gauge-demo">
+                            <img src={require("../../assets/DrillBackground-3.png")} className="gaugeImg" alt="Logo" title="Click to go to Homepage" />
+                            <div id="gauge-container">
+                                <div className="left-section">
+                                    <EngineRpm
+                                        value={engineRpm}
+                                        inverted={false}
+                                        startAngle={180}
+                                        endAngle={90}
+                                        color={color}
+                                    />
+                                    <p className='engineRpmScale'>x100</p>
+                                    <p className='sideGuageTitle'>Engine RPM</p>
+                                    <OilPressure
+                                        value={(metric) ? (oilPressure * 0.0689476) : oilPressure}
+                                        inverted={true}
+                                        startAngle={-90}
+                                        endAngle={-180}
+                                        color={color}
+                                        scale={metric}
+                                    />
+                                    <p className='oilPressureScale'>{(metric) ? 'Bar' : 'Psi'}</p>
+                                    <p className='sideGuageTitle'>Oil Pressure</p>
+                                </div>
                     &nbsp;
                     <div className="center-section">
-                                <CircularGauge value={(metric) ? waterPressure : (waterPressure * 14.5038)}>
-                                    <CircularSize width={260} />
-                                    <CircularScale
-                                        startValue={0}
-                                        endValue={(metric) ? 100 : 1500}
-                                        tickInterval={(metric) ? 20 : 500}
-                                        minorTickInterval={10}
-                                    />
-                                    <Geometry startAngle={225}
-                                        endAngle={315}
-                                    />
-                                    <CircularValueIndicator
-                                        type="twoColorNeedle"
-                                        secondFraction={.4}
-                                        width={5}
-                                        color=""
-                                        secondColor={color}
-                                    />
-                                </CircularGauge>
+                                    <CircularGauge value={(metric) ? waterPressure : (waterPressure * 14.5038)}>
+                                        <CircularSize width={260} />
+                                        <CircularScale
+                                            startValue={0}
+                                            endValue={(metric) ? 100 : 1500}
+                                            tickInterval={(metric) ? 20 : 500}
+                                            minorTickInterval={10}
+                                        />
+                                        <Geometry startAngle={225}
+                                            endAngle={315}
+                                        />
+                                        <CircularValueIndicator
+                                            type="twoColorNeedle"
+                                            secondFraction={.4}
+                                            width={5}
+                                            color=""
+                                            secondColor={color}
+                                        />
+                                    </CircularGauge>
 
-                                <div className="speed-value">
-                                    <span>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
-                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                    <div className="speed-value">
+                                        <span>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
+                                        <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                    </div>
+                                    <h4 className="GaugeTitle">Water Pressure</h4>
                                 </div>
-                                <h4 className="GaugeTitle">Water Pressure</h4>
-                            </div>
                     &nbsp;
                     <div className="center-section">
-                                <CircularGauge value={(metric) ? mainPump : (mainPump * 14.5038)}>
-                                    <CircularSize width={260} />
-                                    <CircularScale
-                                        startValue={0}
-                                        endValue={(metric) ? 400 : 5800}
-                                        tickInterval={(metric) ? 100 : 1000}
-                                        minorTickInterval={10}
-                                    />
-                                    <Geometry startAngle={225} endAngle={315} />
-                                    <CircularValueIndicator
-                                        type="twoColorNeedle"
-                                        secondFraction={0.4}
-                                        color="none"
-                                        secondColor={color}
-                                        width={5}
-                                    />
-                                </CircularGauge>
+                                    <CircularGauge value={(metric) ? mainPump : (mainPump * 14.5038)}>
+                                        <CircularSize width={260} />
+                                        <CircularScale
+                                            startValue={0}
+                                            endValue={(metric) ? 400 : 5800}
+                                            tickInterval={(metric) ? 100 : 1000}
+                                            minorTickInterval={10}
+                                        />
+                                        <Geometry startAngle={225} endAngle={315} />
+                                        <CircularValueIndicator
+                                            type="twoColorNeedle"
+                                            secondFraction={0.4}
+                                            color="none"
+                                            secondColor={color}
+                                            width={5}
+                                        />
+                                    </CircularGauge>
 
-                                <div className="speed-value">
-                                    <span>{(metric) ? mainPump : Math.floor(mainPump * 14.5038)}</span>
-                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                    <div className="speed-value">
+                                        <span>{(metric) ? mainPump : Math.floor(mainPump * 14.5038)}</span>
+                                        <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                    </div>
+                                    <h4 className="GaugeTitle">Rotation Pressure</h4>
                                 </div>
-                                <h4 className="GaugeTitle">Rotation Pressure</h4>
-                            </div>
                     &nbsp;
 
                     <div className="center-section">
-                                <CircularGauge value={(metric) ? bitWeight : (bitWeight * 2.20462)}>
-                                    <CircularSize width={260} />
-                                    <CircularScale
-                                        startValue={20}
-                                        endValue={200}
-                                        tickInterval={20}
-                                        minorTickInterval={10}
-                                    />
-                                    <Geometry startAngle={225} endAngle={315} />
-                                    <CircularValueIndicator
-                                        type="twoColorNeedle"
-                                        secondFraction={0.4}
-                                        color="none"
-                                        secondColor={color}
-                                        width={5}
-                                    />
-                                </CircularGauge>
+                                    <CircularGauge value={(metric) ? bitWeight : (bitWeight * 2.20462)}>
+                                        <CircularSize width={260} />
+                                        <CircularScale
+                                            startValue={20}
+                                            endValue={200}
+                                            tickInterval={20}
+                                            minorTickInterval={10}
+                                        />
+                                        <Geometry startAngle={225} endAngle={315} />
+                                        <CircularValueIndicator
+                                            type="twoColorNeedle"
+                                            secondFraction={0.4}
+                                            color="none"
+                                            secondColor={color}
+                                            width={5}
+                                        />
+                                    </CircularGauge>
 
-                                <div className="speed-value">
-                                    <span>{(metric) ? bitWeight : Math.floor(bitWeight * 2.20462)}</span>
-                                    <p className="unit">{(metric) ? 'Kgs' : "Lbs"}</p>
+                                    <div className="speed-value">
+                                        <span>{(metric) ? bitWeight : Math.floor(bitWeight * 2.20462)}</span>
+                                        <p className="unit">{(metric) ? 'Kgs' : "Lbs"}</p>
+                                    </div>
+                                    <h4 className="GaugeTitle">Bit Weight</h4>
+                                    <FormGroup className="toggleScale">
+                                        <FormControlLabel
+                                            control={<ScaleSwitch checked={metric} onChange={handleLiveChange} name="checkedA" />}
+                                            label={(metric) ? 'Metric' : 'Imperial'}
+                                            labelPlacement="bottom"
+                                        />
+                                    </FormGroup>
                                 </div>
-                                <h4 className="GaugeTitle">Bit Weight</h4>
-                                <FormGroup className="toggleScale">
-                                    <FormControlLabel
-                                        control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
-                                        label={(metric) ? 'Metric' : 'Imperial'}
-                                        labelPlacement="bottom"
-                                    />
-                                </FormGroup>
-                            </div>
+                                <div className="rigSetup">
+                                    <p className="rigSetup title">Mast Angle | Deck Roll | Deck Pitch<br></br><span className={"rigAngles"}>{ready ? `${mastAngle / 10}° | ${Math.round((95 - (deckRoll / 100) * 2) * 10) / 10}° | ${Math.round((95 - (deckPitch / 100) * 2) * 10) / 10}°` : ""}</span></p>
+                                </div>
                     &nbsp;
                     <div className="center-section">
-                                <CircularGauge value={(metric) ? penetrationRate : (penetrationRate * 0.0393701)}>
-                                    <CircularSize width={260} />
-                                    <CircularScale
-                                        startValue={20}
-                                        endValue={200}
-                                        tickInterval={20}
-                                        minorTickInterval={10}
-                                    />
-                                    <Geometry startAngle={225} endAngle={315} />
-                                    <CircularValueIndicator
-                                        type="twoColorNeedle"
-                                        secondFraction={0.4}
-                                        color="none"
-                                        secondColor={color}
-                                        width={5}
-                                    />
-                                </CircularGauge>
+                                    <CircularGauge value={(metric) ? penetrationRate : (penetrationRate * 0.0393701)}>
+                                        <CircularSize width={260} />
+                                        <CircularScale
+                                            startValue={20}
+                                            endValue={200}
+                                            tickInterval={20}
+                                            minorTickInterval={10}
+                                        />
+                                        <Geometry startAngle={225} endAngle={315} />
+                                        <CircularValueIndicator
+                                            type="twoColorNeedle"
+                                            secondFraction={0.4}
+                                            color="none"
+                                            secondColor={color}
+                                            width={5}
+                                        />
+                                    </CircularGauge>
 
-                                <div className="speed-value">
-                                    <span>{(metric) ? penetrationRate : Math.floor(penetrationRate * 0.0393701)}</span>
-                                    <p className="unit">{(metric) ? 'mm/m' : '"/m'}</p>
+                                    <div className="speed-value">
+                                        <span>{(metric) ? penetrationRate : Math.floor(penetrationRate * 0.0393701)}</span>
+                                        <p className="unit">{(metric) ? 'mm/m' : '"/m'}</p>
+                                    </div>
+                                    <h4 className="GaugeTitle">Penetration Rate</h4>
                                 </div>
-                                <h4 className="GaugeTitle">Penetration Rate</h4>
-                            </div>
                     &nbsp;
                     <div className="right-section">
-                                <div className="coolantLevel">
-                                    <p className="coolantLevel">Coolant Level</p>
-                                    <Bulb
-                                        color={coolantLevel}
-                                        size={10}
+                                    <div className="coolantLevel">
+                                        <p className="coolantLevel">Coolant Level</p>
+                                        <Bulb
+                                            color={coolantLevel}
+                                            size={10}
+                                        />
+                                    </div>
+                                    <CoolantTemp
+                                        value={(metric) ? coolantTemp : (coolantTemp * 9 / 5) + 32}
+                                        inverted={true}
+                                        startAngle={90}
+                                        endAngle={0}
+                                        color={color}
+                                        scale={metric}
                                     />
+                                    <p className='sideGuageTitle'>{(metric) ? 'Coolant Temp °C' : 'Coolant Temp °F'}</p>
+                                    <Indicator
+                                        value={(metric) ? mainPump : (mainPump * 14.5038)}
+                                        inverted={false}
+                                        startAngle={0}
+                                        endAngle={-90}
+                                        color={color}
+                                        scale={metric}
+                                    />
+                                    <p className='mainPumpScale'>{(metric) ? 'Bar' : 'Psi'}</p>
+                                    <p className='sideGuageTitle'>Main Pump</p>
                                 </div>
-                                <CoolantTemp
-                                    value={(metric) ? coolantTemp : (coolantTemp * 9 / 5) + 32}
-                                    inverted={true}
-                                    startAngle={90}
-                                    endAngle={0}
-                                    color={color}
-                                    scale={metric}
-                                />
-                                <p className='sideGuageTitle'>{(metric) ? 'Coolant Temp °C' : 'Coolant Temp °F'}</p>
-                                <Indicator
-                                    value={(metric) ? mainPump : (mainPump * 14.5038)}
-                                    inverted={false}
-                                    startAngle={0}
-                                    endAngle={-90}
-                                    color={color}
-                                    scale={metric}
-                                />
-                                <p className='mainPumpScale'>{(metric) ? 'Bar' : 'Psi'}</p>
-                                <p className='sideGuageTitle'>Main Pump</p>
                             </div>
                         </div>
-                    </div>
-                    <div id="gauge-demo">
-                        <div id="gauge-container">
-                            <div className="left-section">
-                                <div className="sideGauge placeholder">
-                                    <p></p>
+                        <div id="gauge-demo">
+                            <div id="gauge-container">
+                                <div className="left-section">
+                                    <div className="sideGauge placeholder">
+                                        <p></p>
+                                    </div>
+                                    <div className="sideGauge">
+                                        <p>Head Position</p>
+                                        <h4>{headPosition} mm</h4>
+                                    </div>
+                                    <div className="sideGauge">
+                                        <p>Hole Depth</p>
+                                        <h4>{holeDepth} m</h4>
+                                    </div><div className="sideGauge">
+                                        <p>Driller ID</p>
+                                        <h6>{driller}</h6>
+                                    </div>
                                 </div>
-                                <div className="sideGauge">
-                                    <p>Head Position</p>
-                                    <h4>{headPosition} mm</h4>
-                                </div>
-                                <div className="sideGauge">
-                                    <p>Hole Depth</p>
-                                    <h4>{holeDepth} m</h4>
-                                </div><div className="sideGauge">
-                                    <p>Driller ID</p>
-                                    <h6>{driller}</h6>
-                                </div>
-                            </div>
                     &nbsp;
                     <div className="center-section">
-                                <CircularGauge value={(metric) ? holdback : (holdback * 14.5038)}>
-                                    <CircularSize width={260} />
-                                    <CircularScale
-                                        startValue={0}
-                                        endValue={(metric) ? 200 : 5000}
-                                        tickInterval={(metric) ? 50 : 1000}
-                                        minorTickInterval={(metric) ? 10 : 200}
+                                    <CircularGauge value={(metric) ? holdback : (holdback * 14.5038)}>
+                                        <CircularSize width={260} />
+                                        <CircularScale
+                                            startValue={0}
+                                            endValue={(metric) ? 200 : 5000}
+                                            tickInterval={(metric) ? 50 : 1000}
+                                            minorTickInterval={(metric) ? 10 : 200}
 
-                                    />
-                                    <Geometry startAngle={225} endAngle={315} />
-                                    <CircularValueIndicator
-                                        type="twoColorNeedle"
-                                        secondFraction={0.4}
-                                        color="none"
-                                        secondColor={color}
-                                        width={5}
-                                    />
-                                </CircularGauge>
+                                        />
+                                        <Geometry startAngle={225} endAngle={315} />
+                                        <CircularValueIndicator
+                                            type="twoColorNeedle"
+                                            secondFraction={0.4}
+                                            color="none"
+                                            secondColor={color}
+                                            width={5}
+                                        />
+                                    </CircularGauge>
 
-                                <div className="speed-value">
-                                    <span>{(metric) ? holdback : Math.floor(holdback * 14.5038)}</span>
-                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                    <div className="speed-value">
+                                        <span>{(metric) ? holdback : Math.floor(holdback * 14.5038)}</span>
+                                        <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                    </div>
+                                    <h4 className="GaugeTitle">Holdback Pressure</h4>
                                 </div>
-                                <h4 className="GaugeTitle">Holdback Pressure</h4>
-                            </div>
                     &nbsp;
                     <div className="center-section">
-                                <CircularGauge value={(metric) ? holdback : (holdback * 14.5038)}>
-                                    <CircularSize width={260} />
-                                    <CircularScale
-                                        startValue={0}
-                                        endValue={(metric) ? 200 : 2500}
-                                        tickInterval={(metric) ? 50 : 500}
-                                        minorTickInterval={(metric) ? 10 : 200}
-                                    />
-                                    <Geometry startAngle={225} endAngle={315} />
-                                    <CircularValueIndicator
-                                        type="twoColorNeedle"
-                                        secondFraction={0.4}
-                                        color="none"
-                                        secondColor={color}
-                                        width={5}
-                                    />
-                                </CircularGauge>
+                                    <CircularGauge value={(metric) ? holdback : (holdback * 14.5038)}>
+                                        <CircularSize width={260} />
+                                        <CircularScale
+                                            startValue={0}
+                                            endValue={(metric) ? 200 : 2500}
+                                            tickInterval={(metric) ? 50 : 500}
+                                            minorTickInterval={(metric) ? 10 : 200}
+                                        />
+                                        <Geometry startAngle={225} endAngle={315} />
+                                        <CircularValueIndicator
+                                            type="twoColorNeedle"
+                                            secondFraction={0.4}
+                                            color="none"
+                                            secondColor={color}
+                                            width={5}
+                                        />
+                                    </CircularGauge>
 
-                                <div className="speed-value">
-                                    <span>{(metric) ? pulldown : Math.floor(pulldown * 14.5038)}</span>
-                                    <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                    <div className="speed-value">
+                                        <span>{(metric) ? pulldown : Math.floor(pulldown * 14.5038)}</span>
+                                        <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
+                                    </div>
+                                    <h4 className="GaugeTitle">PullDown Pressure</h4>
+
                                 </div>
-                                <h4 className="GaugeTitle">PullDown Pressure</h4>
-
-                            </div>
                     &nbsp;
                     <div className="center-section">
-                                <CircularGauge value={parseInt(rotationRpm)}>
-                                    <CircularSize width={260} />
-                                    <CircularScale
-                                        startValue={0}
-                                        endValue={30}
-                                        tickInterval={2}
-                                        minorTickInterval={10}
+                                    <CircularGauge value={parseInt(rotationRpm)}>
+                                        <CircularSize width={260} />
+                                        <CircularScale
+                                            startValue={0}
+                                            endValue={30}
+                                            tickInterval={2}
+                                            minorTickInterval={10}
 
-                                    />
-                                    <Geometry startAngle={225} endAngle={315} />
-                                    <CircularValueIndicator
-                                        type="twoColorNeedle"
-                                        secondFraction={0.4}
-                                        color="none"
-                                        secondColor={color}
-                                        width={5}
-                                    />
-                                </CircularGauge>
+                                        />
+                                        <Geometry startAngle={225} endAngle={315} />
+                                        <CircularValueIndicator
+                                            type="twoColorNeedle"
+                                            secondFraction={0.4}
+                                            color="none"
+                                            secondColor={color}
+                                            width={5}
+                                        />
+                                    </CircularGauge>
 
-                                <div className="speed-value">
-                                    <span>{parseInt(rotationRpm)}</span>
-                                    <p className="unit">Rpm</p>
+                                    <div className="speed-value">
+                                        <span>{parseInt(rotationRpm)}</span>
+                                        <p className="unit">Rpm</p>
+                                    </div>
+                                    <h4 className="GaugeTitle">Head RPM</h4>
                                 </div>
-                                <h4 className="GaugeTitle">Head RPM</h4>
-                            </div>
                 &nbsp;
                     <div className="right-section">
-                                <div className="sideGauge placeholder">
-                                    <p></p>
-                                </div>
-                                <div className="sideGauge">
-                                    <p>Head Rack Back</p>
-                                    <Bulb
-                                        color={headBackRack}
-                                        size={10}
-                                    />
-                                </div>
-                                <div className="sideGauge">
-                                    <p>Foot Clamp</p>
-                                    <Bulb
-                                        color={footClamp}
-                                        size={10}
-                                    />
-                                </div>
-                                <div className="sideGauge">
-                                    <p>Engine Hours</p>
-                                    <h4>{engineHours} Hrs</h4>
+                                    <div className="sideGauge placeholder">
+                                        <p></p>
+                                    </div>
+                                    <div className="sideGauge">
+                                        <p>Head Rack Back</p>
+                                        <Bulb
+                                            color={headBackRack}
+                                            size={10}
+                                        />
+                                    </div>
+                                    <div className="sideGauge">
+                                        <p>Foot Clamp</p>
+                                        <Bulb
+                                            color={footClamp}
+                                            size={10}
+                                        />
+                                    </div>
+                                    <div className="sideGauge">
+                                        <p>Engine Hours</p>
+                                        <h4>{engineHours} Hrs</h4>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -420,10 +864,10 @@ function Rig21Live(props) {
                 </React.Fragment>
                 :
                 // Mobile
-                
+
 
                 <React.Fragment>
-                    
+
                     <div className="mobileScale">
                         <FormGroup className="toggleScale mobileScale">
                             <FormControlLabel
@@ -458,7 +902,7 @@ function Rig21Live(props) {
                                 </CircularGauge>
 
                                 <div className="speed-value">
-                                    <span style={{textAlign: "center"}}>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
+                                    <span style={{ textAlign: "center" }}>{(metric) ? waterPressure : Math.floor(waterPressure * 14.5038)}</span>
                                     <p className="unitSmall">{(metric) ? 'Bar' : "Psi"}</p>
                                 </div>
                                 <h4 className="GaugeTitleSmall">Water Pressure</h4>
