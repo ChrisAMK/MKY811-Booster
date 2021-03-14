@@ -200,12 +200,18 @@ function Rig21Live() {
     const [driller, setDriller] = useState(0);
     const [metric, setMetric] = useState(true);
     const [bottom, setBottom] = useState(false);
-    const [year, setYear] = useState("");
+    const [year, setYear] = useState(0);
     const [month, setMonth] = useState("");
     const [day, setDay] = useState(0);
     const [hour, setHour] = useState(0);
     const [minute, setMinute] = useState(0);
     const [second, setSecond] = useState(0);
+    const [yearD, setYearD] = useState(0);
+    const [monthD, setMonthD] = useState("");
+    const [dayD, setDayD] = useState(0);
+    const [hourD, setHourD] = useState(0);
+    const [minuteD, setMinuteD] = useState(0);
+    const [secondD, setSecondD] = useState(0);
     const [mastAngle, setMastAngle] = useState(0);
     const [deckRoll, setDeckRoll] = useState(0);
     const [deckPitch, setDeckPitch] = useState(0);
@@ -390,7 +396,7 @@ function Rig21Live() {
 
     useEffect(() => {
         let unmounted = false;
-        
+
 
         const getData = async () => {
             if (live === true && !(unmounted)) {
@@ -411,14 +417,13 @@ function Rig21Live() {
                     setPulldown(parseInt(lastEntry[0].pulldownPressure) || 0);
                     setWaterPressure(parseInt(lastEntry[0].waterPressure) || 0);
                     setBitWeight(parseInt(lastEntry[0].bitWeight) || 0);
-                    setDriller(parseInt(lastEntry[0].driller) || 0);
                     setDriller(driller[0].toUpperCase() || 0);
-                    setYear(lastEntry[0].year || 0);
-                    setMonth(lastEntry[0].month || 0);
-                    setDay(lastEntry[0].date || 0);
-                    setHour(lastEntry[0].hour || 0);
-                    setMinute(lastEntry[0].minute || 0);
-                    setSecond(lastEntry[0].second || 0);
+                    setYearD(lastEntry[0].year || 0);
+                    setMonthD(lastEntry[0].month || 0);
+                    setDayD(lastEntry[0].date || 0);
+                    setHourD(lastEntry[0].hour || 0);
+                    setMinuteD(lastEntry[0].minute || 0);
+                    setSecondD(lastEntry[0].second || 0);
                     setMastAngle(lastEntry[0].mastAngle || 0)
                     setDeckRoll(lastEntry[0].deckRoll || 0);
                     setDeckPitch(lastEntry[0].deckPitch || 0);
@@ -448,7 +453,7 @@ function Rig21Live() {
 
             } else if (!(unmounted)) {
                 try {
-                    const searchEntry = await API.getExactTime("rig08", "drilling", year, month, day, hour, minute, second);
+                    const searchEntry = await API.getExactTime("rig021", "drilling", year, month, day, hour, minute, second);
                     console.log(searchEntry)
                     const driller = searchEntry[0].driller.split("\x00")
                     setEngineRpm(parseInt(searchEntry[0].engineRPM) || 0);
@@ -464,14 +469,13 @@ function Rig21Live() {
                     setPulldown(parseInt(searchEntry[0].pulldownPressure) || 0);
                     setWaterPressure(parseInt(searchEntry[0].waterPressure) || 0);
                     setBitWeight(parseInt(searchEntry[0].bitWeight) || 0);
-                    setDriller(parseInt(searchEntry[0].driller) || 0);
                     setDriller(driller[0].toUpperCase() || 0);
-                    setYear(searchEntry[0].year || 0);
-                    setMonth(searchEntry[0].month || 0);
-                    setDay(searchEntry[0].date || 0);
-                    setHour(searchEntry[0].hour || 0);
-                    setMinute(searchEntry[0].minute || 0);
-                    setSecond(searchEntry[0].second || 0);
+                    setYearD(searchEntry[0].year || 0);
+                    setMonthD(searchEntry[0].month || 0);
+                    setDayD(searchEntry[0].date || 0);
+                    setHourD(searchEntry[0].hour || 0);
+                    setMinuteD(searchEntry[0].minute || 0);
+                    setSecondD(searchEntry[0].second || 0);
                     setMastAngle(searchEntry[0].mastAngle || 0)
                     setDeckRoll(searchEntry[0].deckRoll || 0);
                     setDeckPitch(searchEntry[0].deckPitch || 0);
@@ -528,7 +532,7 @@ function Rig21Live() {
 
         document.addEventListener('mouseup', mouseOff, false);
         document.addEventListener('keydown', keyDown, false);
-        
+
         let timer = setInterval(() => {
             getData()
         }, 1000);
@@ -538,7 +542,7 @@ function Rig21Live() {
             unmounted = true;
         }
 
-    }, [handleChange]);
+    }, [handleChange, year, month, day, hour, minute, second]);
 
     return (
         <React.Fragment>
@@ -640,6 +644,9 @@ function Rig21Live() {
                                         <p className="unit">{(metric) ? 'Bar' : "Psi"}</p>
                                     </div>
                                     <h4 className="GaugeTitle">Rotation Pressure</h4>
+                                </div>
+                                <div className="currentTime">
+                                    <p className="currentTime title twenty1">Last Recorded Time: <br></br><span className="timeFont">{ready ? `${monthD} ${dayD} ${yearD} @ ${hourD}:${minuteD}:${secondD}` : "Select a Time to Start"}</span></p>
                                 </div>
                     &nbsp;
 
@@ -871,7 +878,7 @@ function Rig21Live() {
                     <div className="mobileScale">
                         <FormGroup className="toggleScale mobileScale">
                             <FormControlLabel
-                                control={<ScaleSwitch checked={metric} onChange={handleChange} name="checkedA" />}
+                                control={<ScaleSwitch checked={metric} onChange={handleLiveChange} name="checkedA" />}
                                 label={(metric) ? 'Metric' : 'Imperial'}
                                 labelPlacement="bottom"
                             />

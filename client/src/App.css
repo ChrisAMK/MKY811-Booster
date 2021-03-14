@@ -73,6 +73,10 @@
     width: 500px;
 }
 
+.currentTime .title .twenty1 {
+    right: 10px;
+}
+
 .rigSetup {
     position: absolute;
     z-index: 500;
